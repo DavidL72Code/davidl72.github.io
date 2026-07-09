@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Le — Resume</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 9.8pt;
+      line-height: 1.38;
+      color: #111;
+      background: #fff;
+      padding: 0.52in 0.58in;
+      max-width: 8.5in;
+      margin: 0 auto;
+    }
+
+    /* ── Header ── */
+    .header { text-align: center; margin-bottom: 7px; }
+    .header h1 { font-size: 20pt; font-weight: 700; letter-spacing: -0.02em; }
+    .contact {
+      font-size: 8.8pt;
+      color: #333;
+      margin-top: 3px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0 10px;
+    }
+    .contact a { color: #1a6fd4; text-decoration: none; }
+    .contact a:hover { text-decoration: underline; }
+    .sep { color: #aaa; }
+
+    /* ── Section ── */
+    section { margin-top: 7px; }
+    .section-title {
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border-bottom: 1.2px solid #111;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+    }
+
+    /* ── Education ── */
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .edu-row .school { font-weight: 600; }
+    .edu-row .date { font-size: 9pt; color: #444; white-space: nowrap; }
+    .edu-sub { color: #333; margin-top: 1px; }
+    .edu-bullet { margin-left: 14px; margin-top: 1px; color: #333; }
+
+    /* ── Skills ── */
+    .skills-grid { display: flex; flex-direction: column; gap: 1.5px; }
+    .skill-row { display: flex; gap: 0; }
+    .skill-label { font-weight: 600; white-space: nowrap; min-width: 108px; flex-shrink: 0; }
+    .skill-val { color: #222; }
+
+    /* ── Projects ── */
+    .project { margin-bottom: 4px; }
+    .project:last-child { margin-bottom: 0; }
+    .proj-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+    .proj-head .proj-name { font-weight: 600; color: #1a6fd4; }
+    .proj-head .proj-stack { font-size: 9pt; color: #444; }
+    .proj-role { font-style: italic; color: #333; margin-bottom: 2px; font-size: 9.2pt; }
+    ul.bullets { margin-left: 14px; }
+    ul.bullets li { margin-bottom: 1px; color: #222; }
+
+    /* ── Experience ── */
+    .exp { margin-bottom: 4px; }
+    .exp:last-child { margin-bottom: 0; }
+    .exp-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .exp-title { font-weight: 600; }
+    .exp-date { font-size: 9pt; color: #444; white-space: nowrap; }
+
+    /* ── Dark mode ── */
+    html.dark body { background: #0d1117; color: #e6edf3; }
+    html.dark .section-title { border-color: #e6edf3; }
+    html.dark .edu-sub, html.dark .edu-bullet,
+    html.dark .skill-val, html.dark .proj-role,
+    html.dark ul.bullets li, html.dark .exp-date,
+    html.dark .contact { color: #b0bec5; }
+    html.dark .proj-head .proj-stack { color: #8b949e; }
+    html.dark .proj-name, html.dark .contact a { color: #58a6ff; }
+
+    /* ── Floating action buttons ── */
+    #theme-btn, #download-btn {
+      position: fixed;
+      top: 12px;
+      font-size: 8.5pt;
+      font-family: 'Inter', sans-serif;
+      padding: 5px 11px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      background: #f6f8fa;
+      color: #333;
+      cursor: pointer;
+      transition: background 150ms, color 150ms;
+      z-index: 10;
+    }
+    #theme-btn { right: 14px; }
+    #download-btn {
+      right: 92px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    #theme-btn:hover, #download-btn:hover { background: #e9ecef; }
+    #download-btn { border-color: #1a6fd4; color: #1a6fd4; }
+    #download-btn:hover { background: #eaf2fd; }
+
+    html.dark #theme-btn, html.dark #download-btn { background: #21262d; color: #e6edf3; border-color: #30363d; }
+    html.dark #theme-btn:hover, html.dark #download-btn:hover { background: #30363d; }
+    html.dark #download-btn { color: #58a6ff; border-color: #1f6feb; }
+
+    @media print {
+      body { padding: 0.45in 0.52in; }
+      @page { size: letter; margin: 0; }
+      a { color: #1a6fd4 !important; }
+      #theme-btn, #download-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a id="download-btn" href="David_Le_Resume_Updated_x.pdf" download="David_Le_Resume.pdf" aria-label="Download resume as PDF">↓ PDF</a>
+  <button id="theme-btn" aria-label="Toggle dark mode">◐ Dark</button>
+  <script>
+    (function(){
+      var btn = document.getElementById('theme-btn');
+      var dark = localStorage.getItem('resume-theme') === 'dark';
+      var apply = function(d){
+        document.documentElement.classList.toggle('dark', d);
+        btn.textContent = d ? '◑ Light' : '◐ Dark';
+        localStorage.setItem('resume-theme', d ? 'dark' : 'light');
+      };
+      apply(dark);
+      btn.addEventListener('click', function(){ apply(!document.documentElement.classList.contains('dark')); });
+    })();
+  </script>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>David Le</h1>
+    <div class="contact">
+      <span>Boston, MA</span>
+      <span class="sep">|</span>
+      <a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a>
+      <span class="sep">|</span>
+      <a href="https://davidle.dev">Portfolio</a>
+      <span class="sep">|</span>
+      <a href="https://github.com/DavidL72Code">GitHub</a>
+      <span class="sep">|</span>
+      <a href="https://www.linkedin.com/in/david-le-145522302/">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <section>
+    <div class="section-title">Education</div>
+    <div class="edu-row">
+      <span class="school">University of Massachusetts Boston</span>
+      <span class="date">Expected May 2027</span>
+    </div>
+    <div class="edu-sub">B.S. Computer Science</div>
+    <div class="edu-bullet">Relevant coursework: Applied Machine Learning, Software Engineering, Database Management, Computer Security, Advanced Data Structures &amp; Algorithms</div>
+  </section>
+
+  <!-- Skills -->
+  <section>
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-label">AI / LLM:</span>
+        <span class="skill-val">RAG Pipeline Design, Prompt Engineering (chain-of-thought, few-shot, role prompting), LLM Evaluation, LLM-as-Judge, Hybrid Retrieval (BM25 + dense), Gemini, Ollama</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">ML / Data:</span>
+        <span class="skill-val">XGBoost, scikit-learn, PyTorch, SentenceTransformers, ChromaDB, FAISS, Pandas, Feature Engineering, A/B Testing, Statistical Evaluation</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Backend / APIs:</span>
+        <span class="skill-val">Python, FastAPI, Flask, Node.js, SQLAlchemy, SQL, Gmail API, Firebase</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Frontend:</span>
+        <span class="skill-val">React, React Native, Expo, Three.js, JavaScript, HTML, CSS</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Other:</span>
+        <span class="skill-val">Git, Java, C, Metasploit, Aircrack-ng, Hugging Face Spaces, Vercel, Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section>
+    <div class="section-title">Projects</div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">Ez-Ride</span>
+        <span class="proj-stack">Streamlit, Gemini, BM25, FAISS</span>
+      </div>
+      <div class="proj-role">Transportation RAG Assistant — UMass Boston</div>
+      <ul class="bullets">
+        <li>Built a RAG assistant for campus transit questions using hybrid BM25 + FAISS retrieval, Gemini generation, and source-grounded evaluation workflows to improve answer relevance.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">AI Sustainable Labs</span>
+        <span class="proj-stack">Flask, Gemini, ChromaDB, BM25, SentenceTransformers</span>
+      </div>
+      <div class="proj-role">Public- and Donor-Facing RAG Assistant — UMass Boston SSL</div>
+      <ul class="bullets">
+        <li>Built a retrieval-augmented chatbot for the UMass Boston Sustainable Solutions Lab with hybrid retrieval, streaming responses, and evaluation dashboards to monitor answer quality and regressions.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">ClaimSight</span>
+        <span class="proj-stack">Python, FastAPI, Gemini, SAM 2</span>
+      </div>
+      <div class="proj-role">Insurance Damage Assessment Tool</div>
+      <ul class="bullets">
+        <li>Built a vehicle damage assessment tool that analyzes uploaded photos and generates structured claim outputs using FastAPI, Gemini summaries, and SAM 2 segmentation with image safety checks and rate limiting.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">F1 Race Strategy Predictor</span>
+        <span class="proj-stack">XGBoost, scikit-learn, FastAPI, React</span>
+      </div>
+      <div class="proj-role">Machine Learning Prediction Platform</div>
+      <ul class="bullets">
+        <li>Predicted F1 race outcomes using blended XGBoost and scikit-learn models trained on historical race, qualifying, tyre, and weather data; deployed via FastAPI + React with automated retraining scripts.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">Interactive Avatar Chatbot</span>
+        <span class="proj-stack">JavaScript, Firebase, Gemini</span>
+      </div>
+      <div class="proj-role">Avatar-Guided Mental Health Support App</div>
+      <ul class="bullets">
+        <li>Collaborated with a UMass Boston professor to build a multilingual mindfulness app for older Korean adults; implemented Firebase auth, Gemini-powered chat flows, and session-aware avatar interactions.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">Email Expense Tracker</span>
+        <span class="proj-stack">FastAPI, Gmail API, Ollama, SQLAlchemy</span>
+      </div>
+      <div class="proj-role">AI-Powered Expense Automation Tool</div>
+      <ul class="bullets">
+        <li>Automated receipt parsing from Gmail using LLM extraction and SQLAlchemy-backed storage; built Firebase session handling and resilient API fallback logic for reliable personal finance tracking.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="proj-head">
+        <span class="proj-name">AI Prompt Engineering Research</span>
+        <span class="proj-stack">Python, Gemini, Hugging Face</span>
+      </div>
+      <div class="proj-role">LLM Output Quality Research</div>
+      <ul class="bullets">
+        <li>Designed an abstract-generation evaluation workflow using chain-of-thought, few-shot, and structured output prompting in Gemini; scored outputs via preference-rate and rubric-based metrics on Hugging Face.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- Experience -->
+  <section>
+    <div class="section-title">Experience</div>
+
+    <div class="exp">
+      <div class="exp-head">
+        <span class="exp-title">Server — Gyu-Kaku Japanese BBQ</span>
+        <span class="exp-date">July 2024 – Present · Boston, MA</span>
+      </div>
+      <ul class="bullets">
+        <li>Serve 40+ guests per shift averaging $1,200 in sales; strong communication and multitasking under pressure.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="exp-head">
+        <span class="exp-title">Youth Leader — VietAID</span>
+        <span class="exp-date">July – Sept 2022 · Boston, MA</span>
+      </div>
+      <ul class="bullets">
+        <li>Designed and administered mental health surveys for 200+ Boston Public School students; analyzed data and presented findings to school officials.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="exp-head">
+        <span class="exp-title">IRS-Certified Tax Preparer — VITA Program</span>
+        <span class="exp-date">Sept 2021 – May 2023 · Boston, MA</span>
+      </div>
+      <ul class="bullets">
+        <li>Assisted 30+ low-income families with accurate federal tax return preparation.</li>
+      </ul>
+    </div>
+
+  </section>
+
+</body>
+</html>
