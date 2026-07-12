@@ -5,108 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>David Le — Resume</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-      font-size: 9.8pt;
-      line-height: 1.38;
-      color: #111;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 10.3pt;
+      line-height: 1.27;
+      color: #000;
       background: #fff;
-      padding: 0.52in 0.58in;
+      padding: 0.42in 0.6in;
       max-width: 8.5in;
       margin: 0 auto;
     }
 
     /* ── Header ── */
-    .header { text-align: center; margin-bottom: 7px; }
-    .header h1 { font-size: 20pt; font-weight: 700; letter-spacing: -0.02em; }
-    .contact {
-      font-size: 8.8pt;
-      color: #333;
-      margin-top: 3px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0 10px;
+    .name {
+      text-align: center;
+      font-size: 19pt;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 2px;
     }
-    .contact a { color: #1a6fd4; text-decoration: none; }
-    .contact a:hover { text-decoration: underline; }
-    .sep { color: #aaa; }
+    .contact-line {
+      text-align: center;
+      font-size: 10.4pt;
+      margin-top: 1px;
+    }
+    .contact-line a { color: #1a4fd4; text-decoration: underline; }
+    .contact-line a:hover { color: #0b3bb0; }
+    .sep { color: #444; padding: 0 3px; }
 
     /* ── Section ── */
     section { margin-top: 7px; }
     .section-title {
-      font-size: 9pt;
+      font-size: 11pt;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      border-bottom: 1.2px solid #111;
-      padding-bottom: 2px;
-      margin-bottom: 5px;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid #000;
+      padding-bottom: 1px;
+      margin-bottom: 4px;
     }
 
-    /* ── Education ── */
-    .edu-row {
+    /* ── Two-column rows (entry heads) ── */
+    .row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      gap: 12px;
     }
-    .edu-row .school { font-weight: 600; }
-    .edu-row .date { font-size: 9pt; color: #444; white-space: nowrap; }
-    .edu-sub { color: #333; margin-top: 1px; }
-    .edu-bullet { margin-left: 14px; margin-top: 1px; color: #333; }
+    .row .left { font-weight: 700; }
+    .row .right { font-weight: 700; white-space: nowrap; }
+    .subrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .subrow .left { font-style: italic; }
+    .subrow .right { font-weight: 700; font-style: italic; white-space: nowrap; }
+
+    .entry { margin-bottom: 4px; }
+    .entry:last-child { margin-bottom: 0; }
+
+    /* degree line: bold degree + regular tail */
+    .degree { font-weight: 700; }
+    .degree-tail { font-weight: 400; }
+    .coursework { margin-top: 1px; }
+
+    /* ── Project head: name + links + stack ── */
+    .proj-name { font-weight: 700; }
+    .proj-links a { color: #1a4fd4; text-decoration: underline; font-weight: 400; }
+    .proj-links a:hover { color: #0b3bb0; }
+    .proj-stack { font-style: italic; }
+
+    /* ── Bullets ── */
+    ul { margin: 1px 0 0 20px; }
+    ul li { margin-bottom: 1.5px; padding-left: 2px; }
 
     /* ── Skills ── */
-    .skills-grid { display: flex; flex-direction: column; gap: 1.5px; }
-    .skill-row { display: flex; gap: 0; }
-    .skill-label { font-weight: 600; white-space: nowrap; min-width: 108px; flex-shrink: 0; }
-    .skill-val { color: #222; }
-
-    /* ── Projects ── */
-    .project { margin-bottom: 4px; }
-    .project:last-child { margin-bottom: 0; }
-    .proj-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1px;
-    }
-    .proj-head .proj-name { font-weight: 600; color: #1a6fd4; }
-    .proj-head .proj-stack { font-size: 9pt; color: #444; }
-    .proj-role { font-style: italic; color: #333; margin-bottom: 2px; font-size: 9.2pt; }
-    ul.bullets { margin-left: 14px; }
-    ul.bullets li { margin-bottom: 1px; color: #222; }
-
-    /* ── Experience ── */
-    .exp { margin-bottom: 4px; }
-    .exp:last-child { margin-bottom: 0; }
-    .exp-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-    .exp-title { font-weight: 600; }
-    .exp-date { font-size: 9pt; color: #444; white-space: nowrap; }
+    .skill-row { margin-bottom: 1.5px; }
+    .skill-label { font-weight: 700; }
 
     /* ── Dark mode ── */
     html.dark body { background: #0d1117; color: #e6edf3; }
     html.dark .section-title { border-color: #e6edf3; }
-    html.dark .edu-sub, html.dark .edu-bullet,
-    html.dark .skill-val, html.dark .proj-role,
-    html.dark ul.bullets li, html.dark .exp-date,
-    html.dark .contact { color: #b0bec5; }
-    html.dark .proj-head .proj-stack { color: #8b949e; }
-    html.dark .proj-name, html.dark .contact a { color: #58a6ff; }
+    html.dark .sep { color: #8b949e; }
+    html.dark .contact-line a,
+    html.dark .proj-links a { color: #58a6ff; }
 
     /* ── Floating action buttons ── */
     #theme-btn, #download-btn {
       position: fixed;
       top: 12px;
       font-size: 8.5pt;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
       padding: 5px 11px;
       border: 1px solid #d0d7de;
       border-radius: 6px;
@@ -133,9 +126,9 @@
     html.dark #download-btn { color: #58a6ff; border-color: #1f6feb; }
 
     @media print {
-      body { padding: 0.45in 0.52in; }
+      body { padding: 0.4in 0.5in; }
       @page { size: letter; margin: 0; }
-      a { color: #1a6fd4 !important; }
+      .contact-line a, .proj-links a { color: #1a4fd4 !important; }
       #theme-btn, #download-btn { display: none; }
     }
   </style>
@@ -159,137 +152,104 @@
   </script>
 
   <!-- Header -->
-  <div class="header">
-    <h1>David Le</h1>
-    <div class="contact">
-      <span>Boston, MA</span>
-      <span class="sep">|</span>
-      <a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a>
-      <span class="sep">|</span>
-      <a href="https://davidle.dev">Portfolio</a>
-      <span class="sep">|</span>
-      <a href="https://github.com/DavidL72Code">GitHub</a>
-      <span class="sep">|</span>
-      <a href="https://www.linkedin.com/in/david-le-145522302/">LinkedIn</a>
-    </div>
+  <div class="name">David Le</div>
+  <div class="contact-line">
+    <a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a><span class="sep">|</span>Boston, MA
+  </div>
+  <div class="contact-line">
+    <a href="https://github.com/DavidL72Code">github.com/DavidL72Code</a><span class="sep">|</span><a href="https://www.linkedin.com/in/david-le-145522302/">linkedin.com/in/david-le</a>
   </div>
 
   <!-- Education -->
   <section>
     <div class="section-title">Education</div>
-    <div class="edu-row">
-      <span class="school">University of Massachusetts Boston</span>
-      <span class="date">Expected May 2027</span>
+    <div class="entry">
+      <div class="row">
+        <span class="left">University of Massachusetts Boston</span>
+        <span class="right">Boston, Massachusetts</span>
+      </div>
+      <div class="row">
+        <span><span class="degree">B.S. in Computer Science</span></span>
+        <span class="right">Expected May 2027</span>
+      </div>
+      <div class="coursework"><b>Relevant Coursework:</b> Applied Machine Learning, Software Engineering, Database Management,
+      Computer Security, Advanced Data Structures &amp; Algorithms, Discrete Mathematics</div>
     </div>
-    <div class="edu-sub">B.S. Computer Science</div>
-    <div class="edu-bullet">Relevant coursework: Applied Machine Learning, Software Engineering, Database Management, Computer Security, Advanced Data Structures &amp; Algorithms</div>
   </section>
 
-  <!-- Skills -->
+  <!-- Technical Skills -->
   <section>
-    <div class="section-title">Skills</div>
-    <div class="skills-grid">
-      <div class="skill-row">
-        <span class="skill-label">AI / LLM:</span>
-        <span class="skill-val">RAG Pipeline Design, Prompt Engineering (chain-of-thought, few-shot, role prompting), LLM Evaluation, LLM-as-Judge, Hybrid Retrieval (BM25 + dense), Gemini, Ollama</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">ML / Data:</span>
-        <span class="skill-val">XGBoost, scikit-learn, PyTorch, SentenceTransformers, ChromaDB, FAISS, Pandas, Feature Engineering, A/B Testing, Statistical Evaluation</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Backend / APIs:</span>
-        <span class="skill-val">Python, FastAPI, Flask, Node.js, SQLAlchemy, SQL, Gmail API, Firebase</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Frontend:</span>
-        <span class="skill-val">React, React Native, Expo, Three.js, JavaScript, HTML, CSS</span>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Other:</span>
-        <span class="skill-val">Git, Java, C, Metasploit, Aircrack-ng, Hugging Face Spaces, Vercel, Docker</span>
-      </div>
-    </div>
+    <div class="section-title">Technical Skills</div>
+    <div class="skill-row"><span class="skill-label">Languages:</span> Python, Java, JavaScript, C, SQL, HTML/CSS</div>
+    <div class="skill-row"><span class="skill-label">Frameworks:</span> FastAPI, Flask, Node.js, React, React Native, Expo, Streamlit</div>
+    <div class="skill-row"><span class="skill-label">AI / ML:</span> RAG Pipeline Design, Prompt Engineering, LLM Evaluation, Hybrid Retrieval, Feature Engineering, A/B Testing</div>
+    <div class="skill-row"><span class="skill-label">Libraries:</span> PyTorch, scikit-learn, XGBoost, Sentence-Transformers, Pandas, Three.js</div>
+    <div class="skill-row"><span class="skill-label">Databases:</span> ChromaDB, FAISS, Firebase, SQLAlchemy, SQL</div>
+    <div class="skill-row"><span class="skill-label">Tools:</span> Git, GitHub, Docker, Gmail API, Gemini, Ollama, Metasploit, Aircrack-ng</div>
+    <div class="skill-row"><span class="skill-label">Cloud &amp; Infrastructure:</span> Vercel, Docker, Hugging Face Spaces</div>
   </section>
 
   <!-- Projects -->
   <section>
     <div class="section-title">Projects</div>
 
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">Ez-Ride</span>
-        <span class="proj-stack">Streamlit, Gemini, BM25, FAISS</span>
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">Interactive Avatar Chatbot</span> <span class="proj-links">[<a href="https://mindfulness-avatar.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Mindfulness-Avatar">GitHub</a>]</span> | <span class="proj-stack">React Native, Firebase, Gemini, Three.js</span></span>
+        <span class="right">February – June 2026</span>
       </div>
-      <div class="proj-role">Transportation RAG Assistant — UMass Boston</div>
-      <ul class="bullets">
-        <li>Built a RAG assistant for campus transit questions using hybrid BM25 + FAISS retrieval, Gemini generation, and source-grounded evaluation workflows to improve answer relevance.</li>
+      <ul>
+        <li>Collaborated with a UMass Boston professor to build a <b>multilingual mindfulness app</b> for older Korean adults; implemented <b>Firebase auth</b>, Gemini-powered chat flows, and session-aware avatar interactions.</li>
       </ul>
     </div>
 
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">AI Sustainable Labs</span>
-        <span class="proj-stack">Flask, Gemini, ChromaDB, BM25, SentenceTransformers</span>
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">Ez-Ride</span> <span class="proj-links">[<a href="https://ezride-umass-boston-transportation.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/EZRIDE-Umass-Boston-Transportation-App-with-Chatbot">GitHub</a>]</span> | <span class="proj-stack">Streamlit, Gemini, BM25, FAISS</span></span>
+        <span class="right">April – May 2026</span>
       </div>
-      <div class="proj-role">Public- and Donor-Facing RAG Assistant — UMass Boston SSL</div>
-      <ul class="bullets">
-        <li>Built a retrieval-augmented chatbot for the UMass Boston Sustainable Solutions Lab with hybrid retrieval, streaming responses, and evaluation dashboards to monitor answer quality and regressions.</li>
+      <ul>
+        <li>Built a <b>transportation RAG assistant</b> for UMass Boston campus transit questions using <b>hybrid BM25 + FAISS retrieval</b>, Gemini generation, and source-grounded evaluation to improve answer relevance.</li>
       </ul>
     </div>
 
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">ClaimSight</span>
-        <span class="proj-stack">Python, FastAPI, Gemini, SAM 2</span>
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">AI Sustainable Labs</span> <span class="proj-links">[<a href="https://sustainable-labs-chat-bot.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Sustainable-Labs-ChatBot">GitHub</a>]</span> | <span class="proj-stack">Flask, Gemini, ChromaDB, BM25, Sentence-Transformers</span></span>
+        <span class="right">February – May 2026</span>
       </div>
-      <div class="proj-role">Insurance Damage Assessment Tool</div>
-      <ul class="bullets">
-        <li>Built a vehicle damage assessment tool that analyzes uploaded photos and generates structured claim outputs using FastAPI, Gemini summaries, and SAM 2 segmentation with image safety checks and rate limiting.</li>
+      <ul>
+        <li>Built a <b>public- and donor-facing RAG chatbot</b> for the UMass Boston Sustainable Solutions Lab with <b>hybrid retrieval</b>, streaming responses, and evaluation dashboards to monitor answer quality and regressions.</li>
       </ul>
     </div>
 
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">F1 Race Strategy Predictor</span>
-        <span class="proj-stack">XGBoost, scikit-learn, FastAPI, React</span>
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">F1 Race Strategy Predictor</span> <span class="proj-links">[<a href="https://f1-predictor-two.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/F1-Predictor">GitHub</a>]</span> | <span class="proj-stack">XGBoost, scikit-learn, FastAPI, React</span></span>
+        <span class="right">December 2025 – March 2026</span>
       </div>
-      <div class="proj-role">Machine Learning Prediction Platform</div>
-      <ul class="bullets">
-        <li>Predicted F1 race outcomes using blended XGBoost and scikit-learn models trained on historical race, qualifying, tyre, and weather data; deployed via FastAPI + React with automated retraining scripts.</li>
+      <ul>
+        <li>Predicted F1 race outcomes with <b>blended XGBoost and scikit-learn models</b> trained on historical race, qualifying, tyre, and weather data; deployed via <b>FastAPI + React</b> with automated retraining scripts.</li>
       </ul>
     </div>
 
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">Interactive Avatar Chatbot</span>
-        <span class="proj-stack">JavaScript, Firebase, Gemini</span>
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">AI Prompt Engineering Research</span> <span class="proj-links">[<a href="https://huggingface.co/spaces/DavidL72Code/abstract-generator">Demo</a>] [<a href="https://github.com/DavidL72Code/LLM-Abstract-Generator">GitHub</a>]</span> | <span class="proj-stack">Python, Gemini, Hugging Face</span></span>
+        <span class="right">February 2026</span>
       </div>
-      <div class="proj-role">Avatar-Guided Mental Health Support App</div>
-      <ul class="bullets">
-        <li>Collaborated with a UMass Boston professor to build a multilingual mindfulness app for older Korean adults; implemented Firebase auth, Gemini-powered chat flows, and session-aware avatar interactions.</li>
+      <ul>
+        <li>Designed an <b>abstract-generation evaluation workflow</b> using chain-of-thought, few-shot, and structured-output prompting in Gemini; scored outputs via <b>preference-rate and rubric-based metrics</b> on Hugging Face.</li>
       </ul>
     </div>
 
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">Email Expense Tracker</span>
-        <span class="proj-stack">FastAPI, Gmail API, Ollama, SQLAlchemy</span>
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">Email Expense Tracker</span> <span class="proj-links">[<a href="https://auto-tax-mu.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/AutoTax">GitHub</a>]</span> | <span class="proj-stack">FastAPI, Gmail API, Ollama, SQLAlchemy</span></span>
+        <span class="right">October 2025 – January 2026</span>
       </div>
-      <div class="proj-role">AI-Powered Expense Automation Tool</div>
-      <ul class="bullets">
-        <li>Automated receipt parsing from Gmail using LLM extraction and SQLAlchemy-backed storage; built Firebase session handling and resilient API fallback logic for reliable personal finance tracking.</li>
-      </ul>
-    </div>
-
-    <div class="project">
-      <div class="proj-head">
-        <span class="proj-name">AI Prompt Engineering Research</span>
-        <span class="proj-stack">Python, Gemini, Hugging Face</span>
-      </div>
-      <div class="proj-role">LLM Output Quality Research</div>
-      <ul class="bullets">
-        <li>Designed an abstract-generation evaluation workflow using chain-of-thought, few-shot, and structured output prompting in Gemini; scored outputs via preference-rate and rubric-based metrics on Hugging Face.</li>
+      <ul>
+        <li>Automated <b>receipt parsing from Gmail</b> using LLM extraction and SQLAlchemy-backed storage; built Firebase session handling and <b>resilient API fallback logic</b> for reliable personal finance tracking.</li>
       </ul>
     </div>
 
@@ -299,36 +259,47 @@
   <section>
     <div class="section-title">Experience</div>
 
-    <div class="exp">
-      <div class="exp-head">
-        <span class="exp-title">Server — Gyu-Kaku Japanese BBQ</span>
-        <span class="exp-date">July 2024 – Present · Boston, MA</span>
+    <div class="entry">
+      <div class="row">
+        <span class="left">Gyu-Kaku Japanese BBQ</span>
+        <span class="right">Boston, MA</span>
       </div>
-      <ul class="bullets">
-        <li>Serve 40+ guests per shift averaging $1,200 in sales; strong communication and multitasking under pressure.</li>
+      <div class="subrow">
+        <span class="left">Server</span>
+        <span class="right">July 2024 – Present</span>
+      </div>
+      <ul>
+        <li>Serve <b>40+ guests per shift</b> averaging <b>$1,200 in sales</b>, maintaining strong communication and multitasking under high-volume pressure.</li>
       </ul>
     </div>
 
-    <div class="exp">
-      <div class="exp-head">
-        <span class="exp-title">Youth Leader — VietAID</span>
-        <span class="exp-date">July – Sept 2022 · Boston, MA</span>
+    <div class="entry">
+      <div class="row">
+        <span class="left">VietAID</span>
+        <span class="right">Boston, MA</span>
       </div>
-      <ul class="bullets">
-        <li>Designed and administered mental health surveys for 200+ Boston Public School students; analyzed data and presented findings to school officials.</li>
+      <div class="subrow">
+        <span class="left">Youth Leader</span>
+        <span class="right">July – Sept 2022</span>
+      </div>
+      <ul>
+        <li>Designed and administered <b>mental health surveys</b> for <b>200+ Boston Public School students</b>; analyzed the data and presented findings to school officials.</li>
       </ul>
     </div>
 
-    <div class="exp">
-      <div class="exp-head">
-        <span class="exp-title">IRS-Certified Tax Preparer — VITA Program</span>
-        <span class="exp-date">Sept 2021 – May 2023 · Boston, MA</span>
+    <div class="entry">
+      <div class="row">
+        <span class="left">VITA Program</span>
+        <span class="right">Boston, MA</span>
       </div>
-      <ul class="bullets">
-        <li>Assisted 30+ low-income families with accurate federal tax return preparation.</li>
+      <div class="subrow">
+        <span class="left">IRS-Certified Tax Preparer</span>
+        <span class="right">Sept 2021 – May 2023</span>
+      </div>
+      <ul>
+        <li>Assisted <b>30+ low-income families</b> with accurate federal tax return preparation and filing.</li>
       </ul>
     </div>
-
   </section>
 
 </body>
