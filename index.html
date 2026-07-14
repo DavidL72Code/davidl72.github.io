@@ -1230,8 +1230,14 @@
     }
 
     .cube-face.is-active {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      transform: none;
       pointer-events: auto;
-      z-index: 1;
+      z-index: 2;
     }
 
     .cube-face::after {
