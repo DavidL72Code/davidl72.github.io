@@ -1226,12 +1226,6 @@
         linear-gradient(160deg, rgba(14, 48, 54, 0.96), rgba(3, 17, 22, 0.97));
       box-shadow: inset 0 0 80px rgba(84, 217, 200, 0.06);
       backface-visibility: hidden;
-      pointer-events: none;
-    }
-
-    .cube-face.is-active {
-      pointer-events: auto;
-      z-index: 1;
     }
 
     .cube-face::after {
@@ -1319,6 +1313,27 @@
     .cube-face .stack span { border-radius: 0; font-size: 0.6rem; padding: 4px 6px; }
     .cube-face .project-links { position: relative; z-index: 2; margin-top: 8px; gap: 8px; }
     .cube-face .inline-link { font-size: 0.72rem; }
+
+    .project-link-hitbox-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 260;
+      pointer-events: none;
+    }
+
+    .project-link-hitbox {
+      position: fixed;
+      display: block;
+      border-radius: 4px;
+      opacity: 0;
+      pointer-events: auto;
+    }
+
+    .project-link-hitbox:focus-visible {
+      opacity: 1;
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
 
     .cube-index {
       display: grid;
@@ -3347,18 +3362,52 @@
     let currentFace = 0;
     const cubePrevBtn = document.getElementById("cube-prev");
     const cubeNextBtn = document.getElementById("cube-next");
+    const projectLinkHitboxLayer = document.createElement("div");
+    projectLinkHitboxLayer.className = "project-link-hitbox-layer";
+    document.body.appendChild(projectLinkHitboxLayer);
+
+    const syncProjectLinkHitboxes = () => {
+      projectLinkHitboxLayer.replaceChildren();
+      const activeFace = cubeFaces[currentFace];
+      if (!activeFace) return;
+      const stageRect = cubeScroll?.getBoundingClientRect();
+      if (!stageRect || stageRect.bottom < 0 || stageRect.top > window.innerHeight) return;
+
+      activeFace.querySelectorAll(".project-links a").forEach((link) => {
+        const rect = link.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        if (rect.bottom < 0 || rect.top > window.innerHeight || rect.right < 0 || rect.left > window.innerWidth) return;
+
+        const hitbox = document.createElement("a");
+        hitbox.className = "project-link-hitbox";
+        hitbox.href = link.href;
+        hitbox.target = link.target;
+        hitbox.rel = link.rel;
+        hitbox.setAttribute("aria-label", link.textContent.trim());
+        hitbox.style.left = `${rect.left}px`;
+        hitbox.style.top = `${rect.top}px`;
+        hitbox.style.width = `${rect.width}px`;
+        hitbox.style.height = `${rect.height}px`;
+        projectLinkHitboxLayer.appendChild(hitbox);
+      });
+    };
+
+    const scheduleProjectLinkHitboxSync = () => {
+      requestAnimationFrame(syncProjectLinkHitboxes);
+      window.setTimeout(syncProjectLinkHitboxes, 620);
+    };
 
     const renderCubeFace = () => {
       if (!projectCube) return;
       const stop = cubeStops[currentFace];
       projectCube.style.setProperty("--cube-rx", `${stop.x}deg`);
       projectCube.style.setProperty("--cube-ry", `${stop.y}deg`);
-      cubeFaces.forEach((face, index) => face.classList.toggle("is-active", index === currentFace));
       if (cubeCurrent) cubeCurrent.textContent = String(currentFace + 1).padStart(2, "0");
       cubeDots.forEach((dot, index) => dot.classList.toggle("active", index === currentFace));
       /* first face: forward only. last face: backward only. */
       if (cubePrevBtn) cubePrevBtn.style.visibility = currentFace === 0 ? "hidden" : "visible";
       if (cubeNextBtn) cubeNextBtn.style.visibility = currentFace === cubeStops.length - 1 ? "hidden" : "visible";
+      scheduleProjectLinkHitboxSync();
     };
 
     const goToFace = (index) => {
@@ -3369,6 +3418,7 @@
     if (cubePrevBtn) cubePrevBtn.addEventListener("click", () => goToFace(currentFace - 1));
     if (cubeNextBtn) cubeNextBtn.addEventListener("click", () => goToFace(currentFace + 1));
     renderCubeFace();
+    window.addEventListener("resize", scheduleProjectLinkHitboxSync);
 
     const updateProjectCube = () => {};
 
@@ -3767,6 +3817,7 @@
         updateProgress();
         updateActiveNav();
         updateProjectCube();
+        syncProjectLinkHitboxes();
         updateDiverScene();
         updateOrbitScene();
         if (window.scrollY > heroSection.offsetHeight * 0.85 && (fishingLine.mode === "active" || fishingLine.mode === "casting" || fishingLine.mode === "hooked")) {
