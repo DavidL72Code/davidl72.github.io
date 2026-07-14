@@ -1226,6 +1226,12 @@
         linear-gradient(160deg, rgba(14, 48, 54, 0.96), rgba(3, 17, 22, 0.97));
       box-shadow: inset 0 0 80px rgba(84, 217, 200, 0.06);
       backface-visibility: hidden;
+      pointer-events: none;
+    }
+
+    .cube-face.is-active {
+      pointer-events: auto;
+      z-index: 1;
     }
 
     .cube-face::after {
@@ -3278,6 +3284,7 @@
     const progress = document.getElementById("scroll-progress");
     const cubeScroll = document.getElementById("cube-scroll");
     const projectCube = document.getElementById("project-cube");
+    const cubeFaces = [...document.querySelectorAll(".cube-face")];
     const cubeCurrent = document.getElementById("cube-current");
     const cubeDots = [...document.querySelectorAll(".cube-dot")];
     const diverStage = document.getElementById("diver-stage");
@@ -3346,6 +3353,7 @@
       const stop = cubeStops[currentFace];
       projectCube.style.setProperty("--cube-rx", `${stop.x}deg`);
       projectCube.style.setProperty("--cube-ry", `${stop.y}deg`);
+      cubeFaces.forEach((face, index) => face.classList.toggle("is-active", index === currentFace));
       if (cubeCurrent) cubeCurrent.textContent = String(currentFace + 1).padStart(2, "0");
       cubeDots.forEach((dot, index) => dot.classList.toggle("active", index === currentFace));
       /* first face: forward only. last face: backward only. */
