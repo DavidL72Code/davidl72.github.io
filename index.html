@@ -123,11 +123,12 @@
     .eyebrow {
       display: block;
       margin-bottom: 14px;
-      color: var(--muted);
+      color: var(--accent-text);
       font-family: "JetBrains Mono", ui-monospace, monospace;
       font-size: 0.7rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
+      opacity: 0.85;
     }
 
     /* ── Scroll progress ── */
@@ -224,15 +225,19 @@
     .btn:hover { border-color: var(--accent-border); color: var(--accent-text); }
 
     .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: linear-gradient(135deg, #4f8eff 0%, #7c3aed 100%);
+      border-color: transparent;
       color: #fff;
+      box-shadow: 0 0 22px rgba(99,102,241,0.4), 0 4px 12px rgba(0,0,0,0.3);
+      transition: box-shadow 220ms ease, transform 180ms ease, opacity 180ms ease;
     }
 
     .btn-primary:hover {
-      background: color-mix(in srgb, var(--accent) 86%, #000);
-      border-color: color-mix(in srgb, var(--accent) 86%, #000);
+      background: linear-gradient(135deg, #4f8eff 0%, #7c3aed 100%);
+      border-color: transparent;
       color: #fff;
+      box-shadow: 0 0 36px rgba(99,102,241,0.6), 0 6px 20px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
     }
 
     .btn-sm { padding: 7px 13px; font-size: 0.82rem; }
@@ -326,11 +331,21 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.4rem, 5.4vw, 3.5rem);
-      margin-bottom: 18px;
+      font-size: clamp(3.4rem, 7.5vw, 5.6rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin-bottom: 20px;
+      line-height: 1.05;
     }
 
-    .hero h1 span { color: var(--muted); }
+    /* The "." — gradient glow, aurora accent */
+    .hero h1 span {
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 60%, #f472b6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 18px rgba(167,139,250,0.55));
+    }
 
     .hero-lede {
       max-width: 54ch;
@@ -352,9 +367,13 @@
 
     .stat strong {
       display: block;
-      font-size: 1.02rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .stat span {
@@ -882,7 +901,104 @@
 
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* ── Ambient background blobs (give backdrop-filter something to blur) ── */
+    /* ── Film grain (analog / editorial texture) ── */
+    .grain {
+      position: fixed;
+      inset: -50%;
+      width: 200%; height: 200%;
+      z-index: 9995;
+      pointer-events: none;
+      opacity: 0.048;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 300px 300px;
+      mix-blend-mode: overlay;
+      animation: grain-shift 0.8s steps(1) infinite;
+    }
+    @keyframes grain-shift {
+      0%   { transform: translate(0,0); }
+      10%  { transform: translate(-3%,-4%); }
+      20%  { transform: translate(2%,5%); }
+      30%  { transform: translate(-5%,2%); }
+      40%  { transform: translate(4%,-3%); }
+      50%  { transform: translate(-2%,6%); }
+      60%  { transform: translate(5%,-2%); }
+      70%  { transform: translate(-4%,3%); }
+      80%  { transform: translate(3%,-5%); }
+      90%  { transform: translate(-1%,4%); }
+    }
+    html.light .grain { opacity: 0.025; }
+
+    /* ── Portrait glow ring ── */
+    .hero-portrait img {
+      border: 1px solid rgba(167,139,250,0.3);
+      box-shadow:
+        0 0 0 4px rgba(99,102,241,0.08),
+        0 0 40px rgba(167,139,250,0.25),
+        var(--shadow);
+    }
+
+    /* ── Custom cursor ── */
+    @media (hover: hover) and (pointer: fine) {
+      html, html * { cursor: none !important; }
+      .cursor-dot, .cursor-ring { display: block; }
+    }
+    @media not all and (hover: hover) {
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+    .cursor-dot {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 6px; height: 6px;
+      background: #a78bfa;
+      border-radius: 50%;
+      z-index: 99999;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: opacity 0.2s ease;
+    }
+    .cursor-ring {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 30px; height: 30px;
+      border: 1.5px solid rgba(167,139,250,0.55);
+      border-radius: 50%;
+      z-index: 99998;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.2s ease;
+    }
+    .cursor-ring.expand {
+      width: 52px; height: 52px;
+      border-color: rgba(96,165,250,0.7);
+    }
+
+    /* ── Blob drift keyframes (aurora / rave light movement) ── */
+    @keyframes blob-1 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      25%      { transform: translate(80px,-100px) scale(1.14); }
+      60%      { transform: translate(-50px,70px) scale(0.9); }
+    }
+    @keyframes blob-2 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(-90px,80px) scale(1.1); }
+      70%      { transform: translate(60px,-60px) scale(0.94); }
+    }
+    @keyframes blob-3 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      40%      { transform: translate(50px,90px) scale(1.18); }
+      80%      { transform: translate(-60px,-40px) scale(0.88); }
+    }
+    @keyframes blob-4 {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%      { transform: translate(-70px,50px) scale(1.12); }
+    }
+
+    /* ── Ambient background blobs ── */
     .glass-bg {
       position: fixed;
       inset: 0;
@@ -893,34 +1009,41 @@
     .glass-bg span {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.28;
+      will-change: transform;
     }
     .glass-bg span:nth-child(1) {
-      width: 700px; height: 700px;
-      top: -200px; left: -120px;
-      background: radial-gradient(circle at 40% 40%, #5b9dff, transparent 65%);
-      filter: blur(90px);
+      width: 760px; height: 760px;
+      top: -240px; left: -140px;
+      background: radial-gradient(circle at 40% 40%, #22d3ee, #3b82f6, transparent 65%);
+      filter: blur(70px);
+      opacity: 0.38;
+      animation: blob-1 20s ease-in-out infinite;
     }
     .glass-bg span:nth-child(2) {
-      width: 560px; height: 560px;
-      top: 20%; right: -140px;
-      background: radial-gradient(circle at 50% 50%, #7c3aed, transparent 65%);
-      filter: blur(80px);
+      width: 600px; height: 600px;
+      top: 18%; right: -160px;
+      background: radial-gradient(circle at 50% 50%, #a855f7, #6366f1, transparent 65%);
+      filter: blur(70px);
+      opacity: 0.34;
+      animation: blob-2 24s ease-in-out infinite;
     }
     .glass-bg span:nth-child(3) {
-      width: 480px; height: 480px;
-      bottom: 5%; left: 15%;
-      background: radial-gradient(circle at 50% 50%, #45d6a4, transparent 65%);
-      filter: blur(100px);
+      width: 520px; height: 520px;
+      bottom: 4%; left: 12%;
+      background: radial-gradient(circle at 50% 50%, #10b981, #06b6d4, transparent 65%);
+      filter: blur(80px);
+      opacity: 0.30;
+      animation: blob-3 18s ease-in-out infinite;
     }
     .glass-bg span:nth-child(4) {
-      width: 400px; height: 400px;
-      top: 55%; right: 25%;
-      background: radial-gradient(circle at 50% 50%, #f0b866, transparent 65%);
-      filter: blur(110px);
-      opacity: 0.16;
+      width: 420px; height: 420px;
+      top: 52%; right: 22%;
+      background: radial-gradient(circle at 50% 50%, #f59e0b, #fb923c, transparent 65%);
+      filter: blur(90px);
+      opacity: 0.22;
+      animation: blob-4 28s ease-in-out infinite;
     }
-    html.light .glass-bg span { opacity: 0.12; }
+    html.light .glass-bg span { opacity: 0.10; }
 
     /* ── Responsive ── */
     @media (max-width: 1180px) {
@@ -963,13 +1086,15 @@
   </style>
 </head>
 <body>
-  <!-- Ambient blobs — give backdrop-filter something to blur -->
+  <!-- Ambient blobs — aurora palette, animated drift -->
   <div class="glass-bg" aria-hidden="true">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span><span></span>
   </div>
+  <!-- Film grain texture -->
+  <div class="grain" aria-hidden="true"></div>
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
   <div class="progress" id="scroll-progress"></div>
 
@@ -1444,6 +1569,32 @@
     mobileNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMobileNav(false)));
 
     /* ── Reveal — Motion.dev animates elements in; content visible by default if Motion fails ── */
+
+    /* ── Custom cursor ── */
+    const cursorDot  = document.getElementById("cursor-dot");
+    const cursorRing = document.getElementById("cursor-ring");
+    if (cursorDot && cursorRing && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let cx = -200, cy = -200, rx = -200, ry = -200;
+      document.addEventListener("mousemove", (e) => {
+        cx = e.clientX; cy = e.clientY;
+        cursorDot.style.left = cx + "px";
+        cursorDot.style.top  = cy + "px";
+      });
+      const tickCursor = () => {
+        rx += (cx - rx) * 0.13;
+        ry += (cy - ry) * 0.13;
+        cursorRing.style.left = rx + "px";
+        cursorRing.style.top  = ry + "px";
+        requestAnimationFrame(tickCursor);
+      };
+      tickCursor();
+      document.querySelectorAll("a, button, .project-card, [role='button']").forEach((el) => {
+        el.addEventListener("mouseenter", () => cursorRing.classList.add("expand"));
+        el.addEventListener("mouseleave", () => cursorRing.classList.remove("expand"));
+      });
+      document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorRing.style.opacity = "0"; });
+      document.addEventListener("mouseenter", () => { cursorDot.style.opacity = "1"; cursorRing.style.opacity = "1"; });
+    }
 
     /* ── Liquid Glass specular tracking ── */
     document.querySelectorAll(".project-card").forEach((card) => {
