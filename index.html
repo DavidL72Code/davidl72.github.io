@@ -148,16 +148,19 @@
       top: 0;
       z-index: 70;
       height: var(--nav-h);
-      background: color-mix(in srgb, var(--surface) 48%, transparent);
-      backdrop-filter: saturate(200%) blur(28px);
-      -webkit-backdrop-filter: saturate(200%) blur(28px);
-      border-bottom: 1px solid color-mix(in srgb, white 11%, var(--border));
-      box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.14);
+      background: rgba(11,15,20,0.35);
+      backdrop-filter: saturate(200%) blur(32px);
+      -webkit-backdrop-filter: saturate(200%) blur(32px);
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.1),
+        0 4px 32px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.06);
     }
     html.light .nav {
-      background: color-mix(in srgb, white 62%, transparent);
-      border-bottom-color: color-mix(in srgb, var(--border) 90%, transparent);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.9), 0 4px 24px rgba(15,23,42,0.06);
+      background: rgba(255,255,255,0.45);
+      border-bottom-color: rgba(255,255,255,0.6);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.9), 0 4px 24px rgba(15,23,42,0.08);
     }
 
     .nav-inner {
@@ -379,20 +382,20 @@
       gap: 8px;
       margin-top: 18px;
       padding: 6px 12px;
-      border: 1px solid color-mix(in srgb, white 10%, var(--border));
+      border: 1px solid rgba(255,255,255,0.16);
       border-radius: 999px;
-      background: color-mix(in srgb, var(--surface) 58%, transparent);
-      backdrop-filter: saturate(160%) blur(16px);
-      -webkit-backdrop-filter: saturate(160%) blur(16px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      background: rgba(17,24,33,0.36);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 2px 8px rgba(0,0,0,0.2);
       color: var(--text-soft);
       font-size: 0.78rem;
       white-space: nowrap;
     }
     html.light .availability {
-      background: color-mix(in srgb, white 72%, transparent);
-      border-color: color-mix(in srgb, var(--border) 85%, transparent);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.45);
+      border-color: rgba(255,255,255,0.7);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 2px 8px rgba(15,23,42,0.06);
     }
 
     .availability i {
@@ -472,22 +475,28 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: color-mix(in srgb, var(--surface) 68%, transparent);
-      backdrop-filter: saturate(160%) blur(14px);
-      -webkit-backdrop-filter: saturate(160%) blur(14px);
-      border: 1px solid color-mix(in srgb, white 9%, var(--border));
+      background: rgba(17,24,33,0.42);
+      backdrop-filter: saturate(180%) blur(22px);
+      -webkit-backdrop-filter: saturate(180%) blur(22px);
+      border: 1px solid rgba(255,255,255,0.13);
       border-radius: var(--radius);
-      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.08);
+      box-shadow:
+        0 2px 12px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.18),
+        inset 0 -1px 0 rgba(0,0,0,0.18);
       transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
     }
 
     html.light .project-card {
-      background: color-mix(in srgb, white 74%, transparent);
-      border-color: color-mix(in srgb, var(--border) 88%, transparent);
-      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.38);
+      border-color: rgba(255,255,255,0.65);
+      box-shadow:
+        0 2px 12px rgba(15,23,42,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.95),
+        inset 0 -1px 0 rgba(15,23,42,0.05);
     }
 
-    /* Liquid-glass specular layer — tracks cursor via --mx/--my */
+    /* Liquid-glass specular — tracks cursor via --mx/--my */
     .project-card::before {
       content: "";
       position: absolute;
@@ -496,25 +505,28 @@
       border-radius: var(--radius);
       background:
         radial-gradient(
-          ellipse 80% 60% at var(--mx, 50%) var(--my, -10%),
-          rgba(255,255,255,0.13) 0%,
-          rgba(255,255,255,0.05) 40%,
-          transparent 70%
+          ellipse 90% 70% at var(--mx, 30%) var(--my, 0%),
+          rgba(255,255,255,0.22) 0%,
+          rgba(255,255,255,0.07) 40%,
+          transparent 68%
         ),
         linear-gradient(
-          160deg,
-          rgba(255,255,255,0.07) 0%,
-          transparent 45%
+          150deg,
+          rgba(255,255,255,0.10) 0%,
+          transparent 40%
         );
       pointer-events: none;
-      transition: background 180ms ease;
     }
 
     .project-card:hover,
     .project-card:focus-within {
-      transform: translateY(-3px);
-      border-color: color-mix(in srgb, var(--accent) 30%, var(--border-strong));
-      box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent), inset 0 1px 0 rgba(255,255,255,0.13);
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(91,157,255,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -1px 0 rgba(0,0,0,0.22);
     }
 
     .project-media {
@@ -745,12 +757,12 @@
       align-items: center;
       gap: 8px;
       padding: 8px 13px;
-      border: 1px solid color-mix(in srgb, white 10%, var(--border));
+      border: 1px solid rgba(255,255,255,0.16);
       border-radius: 999px;
-      background: color-mix(in srgb, var(--surface) 60%, transparent);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.09);
+      background: rgba(17,24,33,0.38);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.16);
       color: var(--muted);
       font-family: "JetBrains Mono", ui-monospace, monospace;
       font-size: 0.72rem;
@@ -760,8 +772,8 @@
 
     .console-toggle:hover {
       color: var(--accent-text);
-      border-color: var(--accent-border);
-      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent);
+      border-color: rgba(91,157,255,0.4);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.20), 0 0 0 1px rgba(91,157,255,0.15);
     }
 
     .console {
@@ -772,12 +784,12 @@
       width: min(400px, calc(100vw - 40px));
       display: none;
       overflow: hidden;
-      background: color-mix(in srgb, var(--surface) 65%, transparent);
-      backdrop-filter: saturate(180%) blur(24px);
-      -webkit-backdrop-filter: saturate(180%) blur(24px);
-      border: 1px solid color-mix(in srgb, white 11%, var(--border));
+      background: rgba(17,24,33,0.45);
+      backdrop-filter: saturate(180%) blur(28px);
+      -webkit-backdrop-filter: saturate(180%) blur(28px);
+      border: 1px solid rgba(255,255,255,0.14);
       border-radius: var(--radius);
-      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.09);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.14);
     }
 
     .console.open { display: block; }
@@ -876,6 +888,46 @@
 
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+    /* ── Ambient background blobs (give backdrop-filter something to blur) ── */
+    .glass-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .glass-bg span {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.28;
+    }
+    .glass-bg span:nth-child(1) {
+      width: 700px; height: 700px;
+      top: -200px; left: -120px;
+      background: radial-gradient(circle at 40% 40%, #5b9dff, transparent 65%);
+      filter: blur(90px);
+    }
+    .glass-bg span:nth-child(2) {
+      width: 560px; height: 560px;
+      top: 20%; right: -140px;
+      background: radial-gradient(circle at 50% 50%, #7c3aed, transparent 65%);
+      filter: blur(80px);
+    }
+    .glass-bg span:nth-child(3) {
+      width: 480px; height: 480px;
+      bottom: 5%; left: 15%;
+      background: radial-gradient(circle at 50% 50%, #45d6a4, transparent 65%);
+      filter: blur(100px);
+    }
+    .glass-bg span:nth-child(4) {
+      width: 400px; height: 400px;
+      top: 55%; right: 25%;
+      background: radial-gradient(circle at 50% 50%, #f0b866, transparent 65%);
+      filter: blur(110px);
+      opacity: 0.16;
+    }
+    html.light .glass-bg span { opacity: 0.12; }
+
     /* ── Responsive ── */
     @media (max-width: 1180px) {
       .rail { display: none; }
@@ -918,6 +970,14 @@
   </style>
 </head>
 <body>
+  <!-- Ambient blobs — give backdrop-filter something to blur -->
+  <div class="glass-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <div class="progress" id="scroll-progress"></div>
 
   <nav class="nav">
