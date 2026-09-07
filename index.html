@@ -877,14 +877,14 @@
 
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-    /* ── Reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 500ms ease, transform 500ms ease;
-    }
+    /* ── Reveal (initial hidden state; Motion.dev drives the animation in) ── */
+    .reveal { opacity: 0; }
+    /* Motion sets inline styles, so .visible is only needed for the reduced-motion fallback */
+    .reveal.visible { opacity: 1; }
 
-    .reveal.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.visible { opacity: 1; transform: none; transition: none; }
+    }
 
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -957,7 +957,6 @@
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
       .project-card, .project-media img { transition: none; }
       .project-card:hover { transform: none; }
       .project-card:hover .project-media img { transform: none; }
@@ -1450,20 +1449,10 @@
     hamburger.addEventListener("click", () => setMobileNav(!mobileNav.classList.contains("open")));
     mobileNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMobileNav(false)));
 
-    /* ── Reveal on scroll ── */
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
+    /* ── Reveal on scroll (Motion.dev handles rich animations; this is the fallback) ── */
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll(".reveal").forEach((node) => node.classList.add("visible"));
+    }
 
     /* ── Liquid Glass specular tracking ── */
     document.querySelectorAll(".project-card").forEach((card) => {
@@ -1651,6 +1640,106 @@
     });
 
     onScroll();
+  </script>
+
+  <!-- Motion.dev animation layer -->
+  <script type="module">
+    import { animate, stagger, inView, scroll, spring } from "https://cdn.jsdelivr.net/npm/motion@11/+esm";
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    /* ─── 1. NAV — slides down on load ─── */
+    animate(".nav", { y: [-64, 0], opacity: [0, 1] }, {
+      duration: 0.55,
+      easing: spring({ stiffness: 220, damping: 28 })
+    });
+
+    /* ─── 2. HERO — staggered entrance sequence ─── */
+    const heroEls = [
+      [".hero .eyebrow",        { opacity: [0, 1], y: [14, 0] },            { duration: 0.45, delay: 0.22 }],
+      [".hero h1",              { opacity: [0, 1], y: [36, 0] },            { duration: 0.65, delay: 0.34, easing: spring({ stiffness: 180, damping: 20 }) }],
+      [".hero-lede",            { opacity: [0, 1], y: [20, 0] },            { duration: 0.5,  delay: 0.48 }],
+      [".hero-actions .btn",    { opacity: [0, 1], y: [16, 0], scale: [0.94, 1] }, { duration: 0.4, delay: stagger(0.09, { start: 0.6 }), easing: spring({ stiffness: 260, damping: 28 }) }],
+      [".hero-portrait img",    { opacity: [0, 1], scale: [0.88, 1], x: [20, 0] }, { duration: 0.7, delay: 0.42, easing: spring({ stiffness: 160, damping: 22 }) }],
+      [".availability",         { opacity: [0, 1], y: [10, 0] },            { duration: 0.4,  delay: 0.72 }],
+      [".hero-stats .stat",     { opacity: [0, 1], y: [18, 0] },            { duration: 0.4,  delay: stagger(0.08, { start: 0.68 }) }],
+    ];
+    heroEls.forEach(([sel, kf, opts]) => animate(sel, kf, opts));
+
+    /* ─── 3. SECTION HEADS — eyebrow slides left, h2 springs up, p fades ─── */
+    inView(".section-head", ({ target }) => {
+      const eyebrow = target.querySelector(".eyebrow");
+      const heading = target.querySelector("h2");
+      const para    = target.querySelector("p");
+      if (eyebrow) animate(eyebrow, { opacity: [0, 1], x: [-22, 0] }, { duration: 0.5, easing: "ease-out" });
+      if (heading)  animate(heading, { opacity: [0, 1], y: [28, 0] },  { duration: 0.6, delay: 0.1, easing: spring({ stiffness: 200, damping: 24 }) });
+      if (para)     animate(para,    { opacity: [0, 1], y: [14, 0] },  { duration: 0.5, delay: 0.22 });
+      target.classList.add("visible");
+    }, { amount: 0.2 });
+
+    /* ─── 4. PROJECT CARDS — staggered spring entrance ─── */
+    inView(".project-grid", ({ target }) => {
+      animate(
+        target.querySelectorAll(".project-card"),
+        { opacity: [0, 1], y: [48, 0], scale: [0.96, 1] },
+        { duration: 0.55, delay: stagger(0.1), easing: spring({ stiffness: 200, damping: 26 }) }
+      );
+      target.querySelectorAll(".project-card").forEach(c => c.classList.add("visible"));
+    }, { amount: 0.05 });
+
+    /* ─── 5. ABOUT CARDS — stagger side by side ─── */
+    inView(".about-grid", ({ target }) => {
+      animate(
+        [...target.children],
+        { opacity: [0, 1], y: [32, 0] },
+        { duration: 0.55, delay: stagger(0.15), easing: spring({ stiffness: 200, damping: 26 }) }
+      );
+      [...target.children].forEach(c => c.classList.add("visible"));
+    }, { amount: 0.1 });
+
+    /* ─── 6. CHIPS — cascade in ─── */
+    inView(".chips", ({ target }) => {
+      animate(
+        target.querySelectorAll(".chip"),
+        { opacity: [0, 1], scale: [0.8, 1], y: [8, 0] },
+        { duration: 0.3, delay: stagger(0.04), easing: spring({ stiffness: 320, damping: 28 }) }
+      );
+    }, { amount: 0.3 });
+
+    /* ─── 7. CONTACT CARDS — slide in from bottom ─── */
+    inView(".contact-grid", ({ target }) => {
+      animate([...target.children], { opacity: [0, 1], y: [28, 0] }, {
+        duration: 0.5, delay: stagger(0.12), easing: spring({ stiffness: 200, damping: 26 })
+      });
+      [...target.children].forEach(c => c.classList.add("visible"));
+      animate(".contact-item", { opacity: [0, 1], x: [-16, 0] }, {
+        duration: 0.38, delay: stagger(0.07, { start: 0.28 }), easing: "ease-out"
+      });
+    }, { amount: 0.1 });
+
+    /* ─── 8. SECTION FOOT / MISC REVEALS ─── */
+    inView(".section-foot", ({ target }) => {
+      animate(target, { opacity: [0, 1], y: [16, 0] }, { duration: 0.4, easing: "ease-out" });
+      target.classList.add("visible");
+    }, { amount: 0.3 });
+
+    /* ─── 9. SCROLL-LINKED: portrait subtle parallax ─── */
+    const portrait = document.querySelector(".hero-portrait");
+    if (portrait) {
+      scroll(
+        animate(portrait, { y: [0, 40] }),
+        { target: document.querySelector(".hero"), offset: ["start start", "end start"] }
+      );
+    }
+
+    /* ─── 10. SCROLL-LINKED: hero text counter-parallax (slower scroll out) ─── */
+    const heroText = document.querySelector(".hero > .wrap > div:first-child");
+    if (heroText) {
+      scroll(
+        animate(heroText, { y: [0, 22] }),
+        { target: document.querySelector(".hero"), offset: ["start start", "end start"] }
+      );
+    }
   </script>
 </body>
 </html>
