@@ -43,6 +43,8 @@
       --warn: #f0b866;
       --shadow: 0 1px 2px rgba(0, 0, 0, 0.32), 0 14px 34px rgba(0, 0, 0, 0.3);
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --radius-xs: 6px;
       --radius: 14px;
       --radius-sm: 8px;
       --max: 1080px;
@@ -102,7 +104,7 @@
     }
 
     .mono {
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.75rem;
       letter-spacing: 0.02em;
     }
@@ -131,7 +133,7 @@
       display: block;
       margin-bottom: 14px;
       color: var(--accent-text);
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.7rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -240,7 +242,6 @@
     }
 
     .btn-primary:hover {
-      background: linear-gradient(135deg, #4f8eff 0%, #7c3aed 100%);
       border-color: transparent;
       color: #fff;
       box-shadow: 0 0 36px rgba(99,102,241,0.6), 0 6px 20px rgba(0,0,0,0.4);
@@ -405,8 +406,11 @@
       height: 190px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid var(--border-strong);
-      box-shadow: var(--shadow);
+      border: 1px solid rgba(167,139,250,0.3);
+      box-shadow:
+        0 0 0 4px rgba(99,102,241,0.08),
+        0 0 40px rgba(167,139,250,0.25),
+        var(--shadow);
     }
 
     .availability {
@@ -466,7 +470,7 @@
       display: block;
       margin-bottom: 9px;
       color: var(--muted);
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.68rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -477,7 +481,7 @@
     .chip {
       padding: 5px 9px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: var(--radius-xs);
       background: var(--surface-2);
       color: var(--text-soft);
       font-size: 0.79rem;
@@ -587,11 +591,11 @@
       left: 10px;
       padding: 4px 9px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: var(--radius-xs);
       background: color-mix(in srgb, var(--bg) 82%, transparent);
       backdrop-filter: blur(6px);
       color: var(--text-soft);
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.66rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -645,7 +649,7 @@
       gap: 5px;
       padding: 6px 10px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: var(--radius-xs);
       color: var(--text-soft);
       font-size: 0.8rem;
       font-weight: 500;
@@ -698,7 +702,7 @@
     .contact-item span:first-child { font-size: 0.9rem; word-break: break-all; }
     .contact-item span:last-child { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
 
-    .facts { display: grid; gap: 0; }
+    .facts { display: grid; }
 
     .fact {
       display: flex;
@@ -711,7 +715,7 @@
     }
 
     .fact:last-child { border-bottom: 0; }
-    .fact span:first-child { color: var(--muted); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .fact span:first-child { color: var(--muted); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
     .fact span:last-child { text-align: right; }
     .fact .open { color: var(--ok); font-weight: 500; }
 
@@ -797,7 +801,7 @@
       -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 2px 12px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.16);
       color: var(--muted);
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.72rem;
       cursor: pointer;
       transition: color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
@@ -835,7 +839,7 @@
       border-bottom: 1px solid var(--border);
       background: var(--surface-2);
       color: var(--muted);
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.68rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -856,7 +860,7 @@
       height: 190px;
       overflow-y: auto;
       padding: 12px 13px;
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.74rem;
       line-height: 1.7;
     }
@@ -872,7 +876,7 @@
       gap: 8px;
       padding: 10px 13px;
       border-top: 1px solid var(--border);
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: var(--font-mono);
       font-size: 0.76rem;
     }
 
@@ -953,15 +957,6 @@
       /* static — no animation avoids constant repaints */
     }
     html.light .grain { opacity: 0.025; }
-
-    /* ── Portrait glow ring ── */
-    .hero-portrait img {
-      border: 1px solid rgba(167,139,250,0.3);
-      box-shadow:
-        0 0 0 4px rgba(99,102,241,0.08),
-        0 0 40px rgba(167,139,250,0.25),
-        var(--shadow);
-    }
 
     /* custom cursor removed — native cursor always visible */
 
@@ -1151,7 +1146,7 @@
       .project-card, .project-media img { transition: none; }
       .project-card:hover { transform: none; }
       .project-card:hover .project-media img { transform: none; }
-      .glass-bg span, .grain, .sun-glow, .laser { animation: none !important; }
+      .glass-bg span, .grain, .sun-glow { animation: none !important; }
       .laser-rig { display: none; }
     }
 
@@ -1253,7 +1248,7 @@
   <main>
     <section class="section" id="about">
       <div class="wrap">
-        <div class="section-head reveal">
+        <div class="section-head">
           <span class="eyebrow">01 · About</span>
           <h2>Builder mindset, not just model hype.</h2>
           <p>
@@ -1263,7 +1258,7 @@
         </div>
 
         <div class="about-grid">
-          <article class="card prose reveal">
+          <article class="card prose">
             <p>
               I'm David, a Computer Science student at UMass Boston. My focus is AI engineering:
               turning models into working systems with solid data flow, proper retrieval, and
@@ -1280,7 +1275,7 @@
             </p>
           </article>
 
-          <div class="card stack-card reveal">
+          <div class="card stack-card">
             <h3>Tech stack</h3>
 
             <div class="stack-group">
@@ -1381,13 +1376,13 @@
 
     <section class="section" id="projects">
       <div class="wrap">
-        <div class="section-head reveal">
+        <div class="section-head">
           <span class="eyebrow">02 · Projects</span>
           <h2>Six deployed projects. Real problems solved.</h2>
         </div>
 
         <div class="project-grid">
-          <article class="project-card reveal">
+          <article class="project-card">
             <div class="project-media">
               <span class="project-tag">01 · Transit AI</span>
               <img src="assets/project-shots/ezride.jpg" alt="Ez-Ride app screenshot" width="900" height="600" loading="lazy" decoding="async" />
@@ -1404,7 +1399,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card">
             <div class="project-media">
               <span class="project-tag">02 · 3D Assistant</span>
               <img src="assets/project-shots/mindfulness.jpg" alt="AI Mindfulness app screenshot" width="900" height="600" loading="lazy" decoding="async" />
@@ -1421,7 +1416,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card">
             <div class="project-media">
               <span class="project-tag">03 · Motorsport Data</span>
               <img src="assets/project-shots/f1-predictor.jpg" alt="F1 Strategy Predictor app screenshot" width="900" height="600" loading="lazy" decoding="async" />
@@ -1438,7 +1433,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card">
             <div class="project-media">
               <span class="project-tag">04 · Knowledge System</span>
               <img src="assets/project-shots/sustainable-labs.jpg" alt="Sustainable Solutions chatbot screenshot" width="900" height="600" loading="lazy" decoding="async" />
@@ -1455,7 +1450,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card">
             <div class="project-media">
               <span class="project-tag">05 · Automation</span>
               <img src="assets/project-shots/auto-tax.jpg" alt="Email Expense Tracker app screenshot" width="900" height="600" loading="lazy" decoding="async" />
@@ -1472,7 +1467,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card">
             <div class="project-media">
               <span class="project-tag">06 · LLM Evaluation</span>
               <img src="assets/project-shots/abstract-generator.jpg" alt="Abstract Generator app screenshot" width="900" height="486" loading="lazy" decoding="async" />
@@ -1491,7 +1486,7 @@
           </article>
         </div>
 
-        <div class="section-foot reveal">
+        <div class="section-foot">
           <a class="quiet-link" href="https://github.com/DavidL72Code" target="_blank" rel="noopener noreferrer">View all projects on GitHub ↗</a>
         </div>
       </div>
@@ -1499,13 +1494,13 @@
 
     <section class="section" id="contact">
       <div class="wrap">
-        <div class="section-head reveal">
+        <div class="section-head">
           <span class="eyebrow">03 · Contact</span>
           <h2>Easy to reach, easy to work with.</h2>
         </div>
 
         <div class="contact-grid">
-          <article class="card contact-card reveal">
+          <article class="card contact-card">
             <h3>Open to new opportunities.</h3>
             <p>Whether it's an internship, a product build, or a technical conversation, my inbox is open.</p>
             <div class="hero-actions" style="margin-bottom: 0;">
@@ -1525,7 +1520,7 @@
             </div>
           </article>
 
-          <aside class="card contact-card reveal">
+          <aside class="card contact-card">
             <span class="stack-label">Quick facts</span>
             <div class="facts">
               <div class="fact"><span>School</span><span>UMass Boston</span></div>
