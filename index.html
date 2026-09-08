@@ -10,6 +10,8 @@
   />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/motion@11.18.0/+esm" />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
     rel="stylesheet"
@@ -108,7 +110,7 @@
       padding: 0 24px;
     }
 
-    .section { padding: 92px 0; border-top: 1px solid var(--border); }
+    .section { padding: 92px 0; border-top: 1px solid var(--border); contain: layout; }
     .section:first-of-type { border-top: 0; }
 
     .section-head { margin-bottom: 40px; max-width: 660px; }
@@ -150,8 +152,8 @@
       z-index: 70;
       height: var(--nav-h);
       background: rgba(11,15,20,0.35);
-      backdrop-filter: saturate(200%) blur(32px);
-      -webkit-backdrop-filter: saturate(200%) blur(32px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.14);
       box-shadow:
         0 1px 0 rgba(255,255,255,0.1),
@@ -411,8 +413,8 @@
       border: 1px solid rgba(255,255,255,0.16);
       border-radius: 999px;
       background: rgba(17,24,33,0.36);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 2px 8px rgba(0,0,0,0.2);
       color: var(--text-soft);
       font-size: 0.78rem;
@@ -501,9 +503,9 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: rgba(17,24,33,0.42);
-      backdrop-filter: saturate(180%) blur(22px);
-      -webkit-backdrop-filter: saturate(180%) blur(22px);
+      background: rgba(17,24,33,0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.13);
       border-radius: var(--radius);
       box-shadow:
@@ -786,8 +788,8 @@
       border: 1px solid rgba(255,255,255,0.16);
       border-radius: 999px;
       background: rgba(17,24,33,0.38);
-      backdrop-filter: saturate(180%) blur(24px);
-      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 2px 12px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.16);
       color: var(--muted);
       font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -811,8 +813,8 @@
       display: none;
       overflow: hidden;
       background: rgba(17,24,33,0.45);
-      backdrop-filter: saturate(180%) blur(28px);
-      -webkit-backdrop-filter: saturate(180%) blur(28px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255,255,255,0.14);
       border-radius: var(--radius);
       box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.14);
@@ -920,19 +922,7 @@
       background-repeat: repeat;
       background-size: 300px 300px;
       mix-blend-mode: overlay;
-      animation: grain-shift 0.8s steps(1) infinite;
-    }
-    @keyframes grain-shift {
-      0%   { transform: translate(0,0); }
-      10%  { transform: translate(-3%,-4%); }
-      20%  { transform: translate(2%,5%); }
-      30%  { transform: translate(-5%,2%); }
-      40%  { transform: translate(4%,-3%); }
-      50%  { transform: translate(-2%,6%); }
-      60%  { transform: translate(5%,-2%); }
-      70%  { transform: translate(-4%,3%); }
-      80%  { transform: translate(3%,-5%); }
-      90%  { transform: translate(-1%,4%); }
+      /* static — no animation avoids constant repaints */
     }
     html.light .grain { opacity: 0.025; }
 
@@ -1085,7 +1075,7 @@
           #f0ede0 85%,
           #e8e0d0 100%
         ) !important;
-      background-attachment: fixed !important;
+      /* no background-attachment:fixed — it forces repaint every scroll frame */
     }
 
     /* Mountain silhouette — only visible in light mode, sits at bottom of hero */
@@ -1158,6 +1148,11 @@
       .prose, .stack-card, .contact-card { padding: 22px; }
       .console-toggle { bottom: 14px; right: 14px; }
       .console { right: 14px; bottom: 58px; }
+      /* fewer GPU layers on mobile */
+      .glass-bg span:nth-child(3),
+      .glass-bg span:nth-child(4) { display: none; }
+      .project-card { backdrop-filter: none; -webkit-backdrop-filter: none; }
+      .grain { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1716,7 +1711,14 @@
         });
       }
 
+      // Pause RAF when hero is out of view
+      let heroVisible = true;
+      const heroObs = new IntersectionObserver(e => { heroVisible = e[0].isIntersecting; }, { threshold: 0 });
+      const heroEl2 = document.querySelector(".hero");
+      if (heroEl2) heroObs.observe(heroEl2);
+
       function tick() {
+        if (!heroVisible) { requestAnimationFrame(tick); return; }
         const dark = !document.documentElement.classList.contains("light");
         beams.forEach(b => {
           b.timer++;
