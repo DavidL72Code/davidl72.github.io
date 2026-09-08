@@ -1072,18 +1072,33 @@
       opacity: 0.30; top: 40%; right: 15%;
     }
 
-    /* ── Mountain sky gradient body (light mode only) ── */
+    /* ── Mountain sky gradient (light mode only) ── */
     html.light body {
-      background: linear-gradient(
-        180deg,
-        #a8d8f0 0%,
-        #c5e5f7 18%,
-        #dff0fb 40%,
-        #e8f7e0 70%,
-        #f5f0e8 100%
-      );
-      background-attachment: fixed;
+      background:
+        linear-gradient(
+          180deg,
+          #74b9e8 0%,
+          #9ecfee 14%,
+          #bde0f5 30%,
+          #d8eef9 48%,
+          #e8f5e0 68%,
+          #f0ede0 85%,
+          #e8e0d0 100%
+        ) !important;
+      background-attachment: fixed !important;
     }
+
+    /* Mountain silhouette — only visible in light mode, sits at bottom of hero */
+    .mountain-svg {
+      display: none;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    html.light .mountain-svg { display: block; }
 
     /* ── Sun glow (light mode only) ── */
     .sun-glow {
@@ -1108,7 +1123,7 @@
       50%      { opacity: 0.85; transform: translateX(-50%) scale(1.06); }
     }
 
-    /* ── Laser beams: multiple ceiling fixtures at different X positions ── */
+    /* ── Laser rig container — JS creates and drives the beams ── */
     .laser-rig {
       position: absolute;
       inset: 0;
@@ -1117,36 +1132,6 @@
       overflow: hidden;
     }
     .laser-rig * { pointer-events: none !important; }
-    .laser {
-      position: absolute;
-      top: 0;
-      left: var(--x, 50%);
-      width: 1px;
-      height: 95vh;
-      transform-origin: top left;
-      transform: rotate(var(--a, 0deg));
-      background: linear-gradient(
-        to bottom,
-        var(--c, #00ff88) 0%,
-        color-mix(in srgb, var(--c, #00ff88) 60%, transparent) 30%,
-        color-mix(in srgb, var(--c, #00ff88) 15%, transparent) 60%,
-        transparent 85%
-      );
-      animation: laser-fade var(--dur, 6s) ease-in-out infinite var(--d, 0s);
-    }
-    .laser::before {
-      content: "";
-      position: absolute;
-      inset: 0 -3px;
-      background: inherit;
-      filter: blur(5px);
-      opacity: 0.25;
-    }
-    @keyframes laser-fade {
-      0%,100% { opacity: 0.6; }
-      45%,55%  { opacity: 0.03; }
-    }
-    html.light .laser-rig { display: none; }
 
     /* ── Responsive ── */
     @media (max-width: 1180px) {
@@ -1242,16 +1227,8 @@
   </div>
 
   <header class="hero" id="home">
-    <!-- Laser rig: each beam has its own ceiling position (--x) and angle (--a) -->
-    <div class="laser-rig" aria-hidden="true">
-      <span class="laser" style="--x:6%;  --a:32deg; --c:#00ff88;--dur:6s; --d:0s"></span>
-      <span class="laser" style="--x:18%; --a:15deg; --c:#39ffe0;--dur:8s; --d:1.1s"></span>
-      <span class="laser" style="--x:32%; --a:-8deg; --c:#00ff88;--dur:5s; --d:0.5s"></span>
-      <span class="laser" style="--x:47%; --a:22deg; --c:#b3ffde;--dur:7s; --d:1.8s"></span>
-      <span class="laser" style="--x:63%; --a:-20deg;--c:#00ff88;--dur:6s; --d:0.3s"></span>
-      <span class="laser" style="--x:78%; --a:-35deg;--c:#39ffe0;--dur:9s; --d:1.4s"></span>
-      <span class="laser" style="--x:91%; --a:-50deg;--c:#00ff88;--dur:5s; --d:0.9s"></span>
-    </div>
+    <!-- Laser rig: JS drives all beams dynamically -->
+    <div class="laser-rig" id="laser-rig" aria-hidden="true"></div>
     <div class="wrap hero-inner">
       <div>
         <span class="eyebrow">AI Engineering · Backend Systems · Full-Stack</span>
@@ -1278,6 +1255,16 @@
         <div class="availability"><i aria-hidden="true"></i> Open to internships &amp; co-ops</div>
       </div>
     </div>
+
+    <!-- Mountain silhouette (light / hiking mode only) -->
+    <svg class="mountain-svg" viewBox="0 0 1440 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+      <!-- distant range, lighter -->
+      <path d="M0,180 L0,130 L120,90 L260,140 L380,70 L520,120 L650,55 L780,110 L900,65 L1040,125 L1160,75 L1300,130 L1440,88 L1440,180 Z" fill="rgba(80,130,180,0.18)"/>
+      <!-- mid range -->
+      <path d="M0,180 L0,155 L180,110 L340,160 L480,100 L600,150 L740,95 L880,155 L1020,105 L1160,150 L1300,115 L1440,145 L1440,180 Z" fill="rgba(60,110,160,0.22)"/>
+      <!-- foreground ridge -->
+      <path d="M0,180 L0,175 L200,148 L420,175 L600,140 L800,170 L1000,142 L1220,168 L1440,150 L1440,180 Z" fill="rgba(40,90,140,0.28)"/>
+    </svg>
   </header>
 
   <main>
@@ -1686,6 +1673,80 @@
     mobileNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMobileNav(false)));
 
     /* ── Reveal — Motion.dev animates elements in; content visible by default if Motion fails ── */
+
+    /* ── Rave laser engine (JS-driven, truly random) ── */
+    (function() {
+      const rig = document.getElementById("laser-rig");
+      if (!rig || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const COLORS = ["#00ff88","#00ff88","#39ffe0","#00ff88","#7dffb3","#00ffcc","#00ff88"];
+      const NUM = 14;
+      const beams = [];
+
+      for (let i = 0; i < NUM; i++) {
+        const el = document.createElement("div");
+        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        const glow  = color.replace("#","rgba(").replace(/([0-9a-f]{2})/gi,
+          (m,p,o) => o===0 ? parseInt(m,16)+"," : parseInt(m,16)+(o===4?",0.18)":""));
+
+        // Random edge: 55% top, 22% left, 23% right
+        const edge = Math.random();
+        let css = `position:absolute;width:1px;height:130vh;pointer-events:none;`
+                + `background:linear-gradient(to bottom,${color} 0%,${color.replace("#","rgba(").slice(0,-1)+",0.25)"} 35%,transparent 75%);`;
+
+        if (edge < 0.55) {
+          css += `top:0;left:${Math.random()*100}%;transform-origin:top center;`;
+        } else if (edge < 0.77) {
+          css += `left:0;top:${Math.random()*70}%;transform-origin:left center;`;
+        } else {
+          css += `right:0;left:auto;top:${Math.random()*70}%;transform-origin:right center;`;
+        }
+
+        el.style.cssText = css;
+        rig.appendChild(el);
+
+        beams.push({
+          el,
+          angle:         (Math.random() - 0.5) * 160,
+          speed:         (Math.random() - 0.5) * 0.9,
+          opacity:       0,
+          targetOpacity: Math.random() > 0.5 ? 0.35 + Math.random() * 0.55 : 0,
+          timer:         Math.floor(Math.random() * 150),
+          duration:      35 + Math.random() * 190,
+        });
+      }
+
+      function tick() {
+        const dark = !document.documentElement.classList.contains("light");
+        beams.forEach(b => {
+          b.timer++;
+          if (b.timer >= b.duration) {
+            b.timer    = 0;
+            b.duration = 30 + Math.random() * 210;
+            if (b.targetOpacity > 0.1) {
+              b.targetOpacity = 0;
+            } else {
+              b.targetOpacity = 0.3 + Math.random() * 0.6;
+              b.angle = (Math.random() - 0.5) * 160;   // dramatic angle snap on every "on"
+              b.speed = (Math.random() - 0.5) * 1.6;
+            }
+          }
+          b.angle += b.speed;
+          if (b.angle >  82) b.speed = -Math.abs(b.speed);
+          if (b.angle < -82) b.speed =  Math.abs(b.speed);
+          if (Math.random() < 0.007) {
+            b.speed += (Math.random() - 0.5) * 0.5;
+            b.speed  = Math.max(-2.2, Math.min(2.2, b.speed));
+          }
+          const lr = b.targetOpacity > b.opacity ? 0.18 : 0.04;
+          b.opacity += (b.targetOpacity - b.opacity) * lr;
+          b.el.style.transform = `rotate(${b.angle.toFixed(2)}deg)`;
+          b.el.style.opacity   = dark ? b.opacity : 0;
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
 
     /* ── Custom cursor ── */
     const cursorDot  = document.getElementById("cursor-dot");
