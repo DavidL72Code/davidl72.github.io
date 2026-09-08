@@ -12,10 +12,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/motion@11.18.0/+esm" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
-    rel="stylesheet"
+  <!-- LCP image preload — tells browser to fetch it at high priority during head parse -->
+  <link rel="preload" as="image" href="assets/profile.png" />
+  <!-- Non-blocking font load — swapped in once ready, never blocks first paint -->
+  <link rel="preload" as="style" onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
   />
+  <noscript><link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+  /></noscript>
   <style>
     /* ─────────────────────────────────────────────
        Tokens — dark is the default, .light overrides
@@ -992,7 +997,7 @@
     .glass-bg span {
       position: absolute;
       border-radius: 50%;
-      will-change: transform;
+      /* will-change omitted — four large blurred layers consume too much compositor budget */
     }
 
     /* DARK = rave: neon green, purple, cyan, magenta */
@@ -1229,7 +1234,7 @@
       </div>
 
       <div class="hero-portrait">
-        <img src="assets/profile.png" alt="David Le" width="190" height="190" />
+        <img src="assets/profile.png" alt="David Le" width="190" height="190" fetchpriority="high" />
         <div class="availability"><i aria-hidden="true"></i> Open to internships &amp; co-ops</div>
       </div>
     </div>
@@ -1687,14 +1692,6 @@
 
     revealEls.forEach((el) => revealObs.observe(el));
 
-    // Scroll fallback: catches anything IO missed (e.g. very fast scroll)
-    let revealRaf = false;
-    window.addEventListener("scroll", () => {
-      if (revealRaf) return;
-      revealRaf = true;
-      requestAnimationFrame(() => { sweepReveal(); revealRaf = false; });
-    }, { passive: true });
-
     // Initial sweep in case any elements are already in view on load
     sweepReveal();
 
@@ -1710,8 +1707,6 @@
       for (let i = 0; i < NUM; i++) {
         const el = document.createElement("div");
         const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-        const glow  = color.replace("#","rgba(").replace(/([0-9a-f]{2})/gi,
-          (m,p,o) => o===0 ? parseInt(m,16)+"," : parseInt(m,16)+(o===4?",0.18)":""));
 
         // Random edge: 55% top, 22% left, 23% right
         const edge = Math.random();
@@ -1740,14 +1735,10 @@
         });
       }
 
-      // Pause RAF when hero is out of view
+      // Pause RAF entirely when hero is off-screen — restart from IO callback
       let heroVisible = true;
-      const heroObs = new IntersectionObserver(e => { heroVisible = e[0].isIntersecting; }, { threshold: 0 });
-      const heroEl2 = document.querySelector(".hero");
-      if (heroEl2) heroObs.observe(heroEl2);
-
+      let rafId = null;
       function tick() {
-        if (!heroVisible) { requestAnimationFrame(tick); return; }
         const dark = !document.documentElement.classList.contains("light");
         beams.forEach(b => {
           b.timer++;
@@ -1774,9 +1765,18 @@
           b.el.style.transform = `rotate(${b.angle.toFixed(2)}deg)`;
           b.el.style.opacity   = dark ? b.opacity : 0;
         });
-        requestAnimationFrame(tick);
+        rafId = requestAnimationFrame(tick);
       }
-      tick();
+
+      // Start/stop loop based on hero visibility — no idle RAF when scrolled away
+      const heroEl2 = document.querySelector(".hero");
+      const heroObs = new IntersectionObserver(e => {
+        heroVisible = e[0].isIntersecting;
+        if (heroVisible && rafId === null) { rafId = requestAnimationFrame(tick); }
+        if (!heroVisible && rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+      }, { threshold: 0 });
+      if (heroEl2) heroObs.observe(heroEl2);
+      rafId = requestAnimationFrame(tick);
     })();
 
     /* ── Liquid Glass specular tracking ── */
@@ -1811,15 +1811,17 @@
       railButtons.forEach((button) => button.classList.toggle("active", button.dataset.target === current));
     };
 
+    // Single passive scroll listener — handles both nav active-state and reveal fallback
     let ticking = false;
     window.addEventListener("scroll", () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
+        sweepReveal();
         onScroll();
         ticking = false;
       });
-    });
+    }, { passive: true });
 
     const jumpTo = (id) => {
       const destination = document.getElementById(id);
