@@ -925,6 +925,11 @@
       opacity: 1 !important;
       transform: none !important;
     }
+    /* chips inside a visible parent also show — with their own stagger delay */
+    .will-animate .visible .chip {
+      opacity: 1 !important;
+      transform: none !important;
+    }
 
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
