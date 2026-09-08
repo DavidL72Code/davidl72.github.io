@@ -1108,46 +1108,43 @@
       50%      { opacity: 0.85; transform: translateX(-50%) scale(1.06); }
     }
 
-    /* ── Laser beams: ceiling-mounted, absolute in hero, no scroll-follow ── */
+    /* ── Laser beams: multiple ceiling fixtures at different X positions ── */
     .laser-rig {
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      inset: 0;
       z-index: 0;
-      pointer-events: none;
-      width: 0;
-      height: 0;
+      pointer-events: none !important;
+      overflow: hidden;
     }
+    .laser-rig * { pointer-events: none !important; }
     .laser {
       position: absolute;
       top: 0;
-      left: 0;
+      left: var(--x, 50%);
       width: 1px;
-      height: 110vh;
-      transform-origin: top center;
+      height: 95vh;
+      transform-origin: top left;
       transform: rotate(var(--a, 0deg));
       background: linear-gradient(
         to bottom,
         var(--c, #00ff88) 0%,
-        color-mix(in srgb, var(--c, #00ff88) 50%, transparent) 40%,
-        transparent 75%
+        color-mix(in srgb, var(--c, #00ff88) 60%, transparent) 30%,
+        color-mix(in srgb, var(--c, #00ff88) 15%, transparent) 60%,
+        transparent 85%
       );
-      /* sharp — no blur on the line itself */
-      animation: laser-fade var(--dur, 5s) ease-in-out infinite var(--d, 0s);
+      animation: laser-fade var(--dur, 6s) ease-in-out infinite var(--d, 0s);
     }
-    /* soft halo only */
     .laser::before {
       content: "";
       position: absolute;
-      inset: 0 -2px;
+      inset: 0 -3px;
       background: inherit;
-      filter: blur(4px);
-      opacity: 0.3;
+      filter: blur(5px);
+      opacity: 0.25;
     }
     @keyframes laser-fade {
-      0%,100% { opacity: 0.55; }
-      40%,60%  { opacity: 0.04; }
+      0%,100% { opacity: 0.6; }
+      45%,55%  { opacity: 0.03; }
     }
     html.light .laser-rig { display: none; }
 
@@ -1245,14 +1242,15 @@
   </div>
 
   <header class="hero" id="home">
-    <!-- Laser rig: ceiling-mounted, lives in hero so it doesn't scroll-follow -->
+    <!-- Laser rig: each beam has its own ceiling position (--x) and angle (--a) -->
     <div class="laser-rig" aria-hidden="true">
-      <span class="laser" style="--a:-55deg;--c:#00ff88;--dur:6s;--d:0s"></span>
-      <span class="laser" style="--a:-36deg;--c:#39ffe0;--dur:7s;--d:0.8s"></span>
-      <span class="laser" style="--a:-14deg;--c:#00ff88;--dur:5s;--d:1.6s"></span>
-      <span class="laser" style="--a:  9deg;--c:#b3ffde;--dur:8s;--d:0.4s"></span>
-      <span class="laser" style="--a: 30deg;--c:#00ff88;--dur:6s;--d:1.2s"></span>
-      <span class="laser" style="--a: 52deg;--c:#39ffe0;--dur:7s;--d:2s"></span>
+      <span class="laser" style="--x:6%;  --a:32deg; --c:#00ff88;--dur:6s; --d:0s"></span>
+      <span class="laser" style="--x:18%; --a:15deg; --c:#39ffe0;--dur:8s; --d:1.1s"></span>
+      <span class="laser" style="--x:32%; --a:-8deg; --c:#00ff88;--dur:5s; --d:0.5s"></span>
+      <span class="laser" style="--x:47%; --a:22deg; --c:#b3ffde;--dur:7s; --d:1.8s"></span>
+      <span class="laser" style="--x:63%; --a:-20deg;--c:#00ff88;--dur:6s; --d:0.3s"></span>
+      <span class="laser" style="--x:78%; --a:-35deg;--c:#39ffe0;--dur:9s; --d:1.4s"></span>
+      <span class="laser" style="--x:91%; --a:-50deg;--c:#00ff88;--dur:5s; --d:0.9s"></span>
     </div>
     <div class="wrap hero-inner">
       <div>
