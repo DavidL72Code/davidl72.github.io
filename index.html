@@ -935,44 +935,7 @@
         var(--shadow);
     }
 
-    /* ── Custom cursor ── */
-    @media (hover: hover) and (pointer: fine) {
-      html, html * { cursor: none !important; }
-      .cursor-dot, .cursor-ring { display: block; }
-    }
-    @media not all and (hover: hover) {
-      .cursor-dot, .cursor-ring { display: none; }
-    }
-    .cursor-dot {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 6px; height: 6px;
-      background: #a78bfa;
-      border-radius: 50%;
-      z-index: 99999;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      will-change: left, top;
-      transition: opacity 0.2s ease;
-    }
-    .cursor-ring {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 30px; height: 30px;
-      border: 1.5px solid rgba(167,139,250,0.55);
-      border-radius: 50%;
-      z-index: 99998;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      will-change: left, top;
-      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.2s ease;
-    }
-    .cursor-ring.expand {
-      width: 52px; height: 52px;
-      border-color: rgba(96,165,250,0.7);
-    }
+    /* custom cursor removed — native cursor always visible */
 
     /* ── Blob drift keyframes (aurora / rave light movement) ── */
     @keyframes blob-1 {
@@ -1179,9 +1142,6 @@
   <div class="grain" aria-hidden="true"></div>
   <!-- Sun glow (light / mountain mode) -->
   <div class="sun-glow" aria-hidden="true"></div>
-  <!-- Custom cursor -->
-  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
   <div class="progress" id="scroll-progress"></div>
 
@@ -1749,32 +1709,6 @@
       }
       tick();
     })();
-
-    /* ── Custom cursor ── */
-    const cursorDot  = document.getElementById("cursor-dot");
-    const cursorRing = document.getElementById("cursor-ring");
-    if (cursorDot && cursorRing && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      let cx = -200, cy = -200, rx = -200, ry = -200;
-      document.addEventListener("mousemove", (e) => {
-        cx = e.clientX; cy = e.clientY;
-        cursorDot.style.left = cx + "px";
-        cursorDot.style.top  = cy + "px";
-      });
-      const tickCursor = () => {
-        rx += (cx - rx) * 0.13;
-        ry += (cy - ry) * 0.13;
-        cursorRing.style.left = rx + "px";
-        cursorRing.style.top  = ry + "px";
-        requestAnimationFrame(tickCursor);
-      };
-      tickCursor();
-      document.querySelectorAll("a, button, .project-card, [role='button']").forEach((el) => {
-        el.addEventListener("mouseenter", () => cursorRing.classList.add("expand"));
-        el.addEventListener("mouseleave", () => cursorRing.classList.remove("expand"));
-      });
-      document.addEventListener("mouseleave", () => { cursorDot.style.opacity = "0"; cursorRing.style.opacity = "0"; });
-      document.addEventListener("mouseenter", () => { cursorDot.style.opacity = "1"; cursorRing.style.opacity = "1"; });
-    }
 
     /* ── Liquid Glass specular tracking ── */
     document.querySelectorAll(".project-card").forEach((card) => {
