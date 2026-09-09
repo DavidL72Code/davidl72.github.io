@@ -151,16 +151,11 @@
     })();
   </script>
 
-  <!-- Header -->
   <div class="name">David Le</div>
   <div class="contact-line">
-    <a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a><span class="sep">|</span>Boston, MA
-  </div>
-  <div class="contact-line">
-    <a href="https://davidl72code.github.io/davidl72.github.io/">Portfolio</a><span class="sep">|</span><a href="https://github.com/DavidL72Code">GitHub</a><span class="sep">|</span><a href="https://www.linkedin.com/in/david-le-145522302/">LinkedIn</a>
+    <a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a><span class="sep">|</span>(617) 397-0049<span class="sep">|</span>Boston, MA<span class="sep">|</span><a href="https://davidl72code.github.io/davidl72.github.io/">Portfolio</a><span class="sep">|</span><a href="https://github.com/DavidL72Code">GitHub</a><span class="sep">|</span><a href="https://www.linkedin.com/in/david-le-145522302/">LinkedIn</a>
   </div>
 
-  <!-- Education -->
   <section>
     <div class="section-title">Education</div>
     <div class="entry">
@@ -169,95 +164,94 @@
         <span class="right">Boston, Massachusetts</span>
       </div>
       <div class="row">
-        <span><span class="degree">B.S. in Computer Science</span></span>
+        <span><span class="degree">B.S. in Computer Science</span> &nbsp;|&nbsp; <span class="degree">GPA: 3.78 / 4.00</span></span>
         <span class="right">Expected May 2027</span>
       </div>
-      <div class="coursework"><b>Relevant Coursework:</b> Applied Machine Learning, Software Engineering, Database Management,
-      Computer Security, Advanced Data Structures &amp; Algorithms, Discrete Mathematics</div>
+      <div class="coursework"><b>Relevant Coursework:</b> Computer Security, Database Management, Intro to Software Engineering,
+      Applied Machine Learning, Industry Applied AI Lab</div>
     </div>
   </section>
 
-  <!-- Technical Skills -->
   <section>
     <div class="section-title">Technical Skills</div>
-    <div class="skill-row"><span class="skill-label">Languages:</span> Python, Java, JavaScript, C, SQL, HTML/CSS</div>
-    <div class="skill-row"><span class="skill-label">Frameworks:</span> FastAPI, Flask, Node.js, React, React Native, Expo, Streamlit</div>
-    <div class="skill-row"><span class="skill-label">AI / ML:</span> RAG Pipeline Design, Prompt Engineering, LLM Evaluation, Hybrid Retrieval, Feature Engineering, A/B Testing</div>
-    <div class="skill-row"><span class="skill-label">Libraries:</span> PyTorch, scikit-learn, XGBoost, Sentence-Transformers, Pandas, Three.js</div>
-    <div class="skill-row"><span class="skill-label">Databases:</span> ChromaDB, FAISS, Firebase, SQLAlchemy, SQL</div>
-    <div class="skill-row"><span class="skill-label">Tools:</span> Git, GitHub, Docker, Gmail API, Gemini, Ollama, Metasploit, Aircrack-ng</div>
-    <div class="skill-row"><span class="skill-label">Cloud &amp; Infrastructure:</span> Vercel, Docker, Hugging Face Spaces</div>
+    <div class="skill-row"><span class="skill-label">Languages &amp; Query:</span> Python, SQL, Java, JavaScript, C, HTML/CSS</div>
+    <div class="skill-row"><span class="skill-label">Security:</span> OAuth 2.0, Firebase Auth, role-based access control, Firestore security rules, Fernet encryption, Metasploit, Aircrack-ng</div>
+    <div class="skill-row"><span class="skill-label">Data &amp; Analytics:</span> Pandas, SQL, feature engineering, walk-forward validation, paired bootstrap significance testing</div>
+    <div class="skill-row"><span class="skill-label">Frameworks &amp; Libraries:</span> FastAPI, Flask, LangGraph, React, React Native, Node.js, scikit-learn, XGBoost, PyTorch</div>
+    <div class="skill-row"><span class="skill-label">Databases:</span> PostgreSQL, SQLAlchemy, Oracle, Firebase, ChromaDB, FAISS</div>
+    <div class="skill-row"><span class="skill-label">Cloud, DevOps &amp; Tools:</span> Docker, Git/GitHub, pytest, Vercel, Render, Hugging Face Spaces, Gemini</div>
   </section>
 
-  <!-- Projects -->
   <section>
     <div class="section-title">Projects</div>
-
     <div class="entry">
       <div class="row">
-        <span><span class="proj-name">Interactive Avatar Chatbot</span> <span class="proj-links">[<a href="https://mindfulness-avatar.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Mindfulness-Avatar">GitHub</a>]</span> | <span class="proj-stack">React Native, Firebase, Gemini, Three.js</span></span>
-        <span class="right">February – June 2026</span>
+        <span><span class="proj-name">Receipt Automation (AutoTax)</span> <span class="proj-links">[<a href="https://auto-tax-mu.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/AutoTax">GitHub</a>]</span> | <span class="proj-stack">Python, LangGraph, FastAPI, Gmail API, Firestore</span></span>
+        <span class="right">July 2025 – Sept 2026</span>
       </div>
       <ul>
-        <li>Collaborated with a UMass Boston professor to build a <b>multilingual mindfulness app</b> for older Korean adults; implemented <b>Firebase auth</b>, Gemini-powered chat flows, and session-aware avatar interactions.</li>
+        <li>Turns receipt emails into an accountant-ready ledger; rebuilt the pipeline as an eight-node LangGraph state machine that triages, extracts, reconciles and persists each receipt, and pauses for human review when the rules cannot prove a field.</li>
+        <li>Every stored record carries a provenance trace naming the source of each field, whether pattern match, sender domain, model or a person, and a validation step sends back any receipt whose arithmetic does not reconcile.</li>
+        <li>Cut model calls from one per email to a single batched call, <b>8&times; faster</b> at identical benchmark accuracy, and encrypted stored OAuth refresh tokens with Fernet.</li>
       </ul>
     </div>
-
     <div class="entry">
       <div class="row">
-        <span><span class="proj-name">Ez-Ride</span> <span class="proj-links">[<a href="https://ezride-umass-boston-transportation.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/EZRIDE-Umass-Boston-Transportation-App-with-Chatbot">GitHub</a>]</span> | <span class="proj-stack">Streamlit, Gemini, BM25, FAISS</span></span>
-        <span class="right">April – May 2026</span>
+        <span><span class="proj-name">Multilingual Mindfulness Assistant</span> <span class="proj-links">[<a href="https://mindfulness-avatar.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Mindfulness-Avatar">GitHub</a>]</span> | <span class="proj-stack">React Native, Firebase, Python, Gemini</span></span>
+        <span class="right">Feb – June 2026</span>
       </div>
       <ul>
-        <li>Built a <b>transportation RAG assistant</b> for UMass Boston campus transit questions using <b>hybrid BM25 + FAISS retrieval</b>, Gemini generation, and source-grounded evaluation to improve answer relevance.</li>
+        <li>Shipped a multilingual mindfulness app for older Korean adults and caregivers under the guidance of a UMass Boston professor, pairing a React Native client with a Python backend for streaming chat and text-to-speech.</li>
+        <li>Wrote the Firestore security rules and backend authorization: per-user ownership checks, field allowlists on every write, completed session records that cannot be edited or deleted, and server-issued tokens bound to the signed-in user so one account cannot reach another’s sessions.</li>
+        <li>Added per-user rate limits, size caps, sanitized error responses, and log redaction of session identifiers to limit abuse and data exposure.</li>
       </ul>
     </div>
-
     <div class="entry">
       <div class="row">
-        <span><span class="proj-name">AI Sustainable Labs</span> <span class="proj-links">[<a href="https://sustainable-labs-chat-bot.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Sustainable-Labs-ChatBot">GitHub</a>]</span> | <span class="proj-stack">Flask, Gemini, ChromaDB, BM25, Sentence-Transformers</span></span>
-        <span class="right">February – May 2026</span>
+        <span><span class="proj-name">AI Sustainable Labs: Governed RAG Assistant</span> <span class="proj-links">[<a href="https://sustainable-labs-chat-bot.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Sustainable-Labs-ChatBot">GitHub</a>]</span> | <span class="proj-stack">Flask, ChromaDB, BM25, Gemini</span></span>
+        <span class="right">Feb – May 2026</span>
       </div>
       <ul>
-        <li>Built a <b>public- and donor-facing RAG chatbot</b> for the UMass Boston Sustainable Solutions Lab with <b>hybrid retrieval</b>, streaming responses, and evaluation dashboards to monitor answer quality and regressions.</li>
+        <li>Scored <b>205/208</b> on an independently judged 208-question evaluation of the UMass Boston Sustainable Solutions Lab’s public assistant, covering correctness, citations and hallucination, with <b>zero verified defects</b>: every remaining miss was hand-checked against the source and traced to a judge disagreement, not a wrong answer.</li>
+        <li>Implemented data-governance controls: an allowlist on every server-to-browser field so internal evidence cannot leak, de-identified quality-review logs, admin-only aggregate reporting, and pre-retrieval input screening with rate limits.</li>
       </ul>
     </div>
-
+        <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">ClaimSight: Insurance Claim Triage Platform</span> <span class="proj-links">[<a href="https://claimsight.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/ClaimSight">GitHub</a>]</span> | <span class="proj-stack">FastAPI, Firebase Auth, SAM 2, Docker</span></span>
+        <span class="right">June – Sept 2026</span>
+      </div>
+      <ul>
+        <li>Built a claim intake and triage tool that separates claimant and adjuster roles and requires a second reviewer before a claim is adjusted, and documented its controls, from upload validation to rate limiting and trusted-host allowlists, in a checklist that also records the gaps they do not cover.</li>
+      </ul>
+    </div>
     <div class="entry">
       <div class="row">
         <span><span class="proj-name">F1 Race Strategy Predictor</span> <span class="proj-links">[<a href="https://f1-predictor-two.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/F1-Predictor">GitHub</a>]</span> | <span class="proj-stack">XGBoost, scikit-learn, FastAPI, React</span></span>
-        <span class="right">December 2025 – March 2026</span>
+        <span class="right">Dec 2025 – Mar 2026</span>
       </div>
       <ul>
-        <li>Predicted F1 race outcomes with <b>blended XGBoost and scikit-learn models</b> trained on historical race, qualifying, tyre, and weather data; deployed via <b>FastAPI + React</b> with automated retraining scripts.</li>
+        <li>Found that the original benchmark leaked future data and rebuilt evaluation as walk-forward validation across 8 seasons and ~157 races; reported effect sizes in standard errors and shipped the simpler model where the difference was not distinguishable from noise.</li>
       </ul>
     </div>
-
-    <div class="entry">
-      <div class="row">
-        <span><span class="proj-name">AI Prompt Engineering Research</span> <span class="proj-links">[<a href="https://huggingface.co/spaces/DavidL72Code/abstract-generator">Demo</a>] [<a href="https://github.com/DavidL72Code/LLM-Abstract-Generator">GitHub</a>]</span> | <span class="proj-stack">Python, Gemini, Hugging Face</span></span>
-        <span class="right">February 2026</span>
-      </div>
-      <ul>
-        <li>Designed an <b>abstract-generation evaluation workflow</b> using chain-of-thought, few-shot, and structured-output prompting in Gemini; scored outputs via <b>preference-rate and rubric-based metrics</b> on Hugging Face.</li>
-      </ul>
-    </div>
-
-    <div class="entry">
-      <div class="row">
-        <span><span class="proj-name">Email Expense Tracker</span> <span class="proj-links">[<a href="https://auto-tax-mu.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/AutoTax">GitHub</a>]</span> | <span class="proj-stack">FastAPI, Gmail API, Ollama, SQLAlchemy</span></span>
-        <span class="right">October 2025 – January 2026</span>
-      </div>
-      <ul>
-        <li>Automated <b>receipt parsing from Gmail</b> using LLM extraction and SQLAlchemy-backed storage; built Firebase session handling and <b>resilient API fallback logic</b> for reliable personal finance tracking.</li>
-      </ul>
-    </div>
-
   </section>
 
-  <!-- Experience -->
   <section>
     <div class="section-title">Experience</div>
+
+    <div class="entry">
+      <div class="row">
+        <span class="left">VITA Program (IRS Volunteer Income Tax Assistance)</span>
+        <span class="right">Boston, MA</span>
+      </div>
+      <div class="subrow">
+        <span class="left">IRS-Certified Tax Preparer</span>
+        <span class="right">Sept 2021 – May 2023</span>
+      </div>
+      <ul>
+        <li>Earned IRS VITA certification and prepared <b>30+ federal returns</b> for low-income filers, reviewing client source documents for completeness and accuracy and clearing every return through the program’s required quality review before filing.</li>
+      </ul>
+    </div>
 
     <div class="entry">
       <div class="row">
@@ -269,7 +263,7 @@
         <span class="right">July 2024 – Present</span>
       </div>
       <ul>
-        <li>Serve <b>40+ guests per shift</b> averaging <b>$1,200 in sales</b>, maintaining strong communication and multitasking under high-volume pressure.</li>
+        <li>Serve <b>40+ guests per shift</b> averaging <b>$1,200 in sales</b> while working 20+ hours weekly alongside a full course load, communicating clearly under high-volume pressure.</li>
       </ul>
     </div>
 
@@ -283,21 +277,7 @@
         <span class="right">July – Sept 2022</span>
       </div>
       <ul>
-        <li>Designed and administered <b>mental health surveys</b> for <b>200+ Boston Public School students</b>; analyzed the data and presented findings to school officials.</li>
-      </ul>
-    </div>
-
-    <div class="entry">
-      <div class="row">
-        <span class="left">VITA Program</span>
-        <span class="right">Boston, MA</span>
-      </div>
-      <div class="subrow">
-        <span class="left">IRS-Certified Tax Preparer</span>
-        <span class="right">Sept 2021 – May 2023</span>
-      </div>
-      <ul>
-        <li>Assisted <b>30+ low-income families</b> with accurate federal tax return preparation and filing.</li>
+        <li>Designed and administered mental health surveys for <b>200+ Boston Public School students</b>, analyzed responses, and presented findings and recommendations to school officials.</li>
       </ul>
     </div>
   </section>
