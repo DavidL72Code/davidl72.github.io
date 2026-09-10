@@ -68,12 +68,11 @@
     .entry { margin-bottom: 4px; }
     .entry:last-child { margin-bottom: 0; }
 
-    /* degree line: bold degree + regular tail */
+    /* degree line */
     .degree { font-weight: 700; }
-    .degree-tail { font-weight: 400; }
     .coursework { margin-top: 1px; }
 
-    /* ── Project head: name + links + stack ── */
+    /* ── Project head ── */
     .proj-name { font-weight: 700; }
     .proj-links a { color: #1a4fd4; text-decoration: underline; font-weight: 400; }
     .proj-links a:hover { color: #0b3bb0; }
@@ -153,7 +152,7 @@
 
   <div class="name">David Le</div>
   <div class="contact-line">
-    <a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a><span class="sep">|</span>(617) 397-0049<span class="sep">|</span>Boston, MA<span class="sep">|</span><a href="https://davidl72code.github.io/davidl72.github.io/">Portfolio</a><span class="sep">|</span><a href="https://github.com/DavidL72Code">GitHub</a><span class="sep">|</span><a href="https://www.linkedin.com/in/david-le-145522302/">LinkedIn</a>
+    Boston, MA<span class="sep">|</span>(617) 397-0049<span class="sep">|</span><a href="mailto:davidducle2@gmail.com">davidducle2@gmail.com</a><span class="sep">|</span><a href="https://www.linkedin.com/in/david-le-145522302/">linkedin.com/in/david-le-145522302</a><span class="sep">|</span><a href="https://github.com/DavidL72Code">github.com/DavidL72Code</a><span class="sep">|</span><a href="https://davidl72code.github.io/davidl72.github.io/">davidl72code.github.io</a>
   </div>
 
   <section>
@@ -161,14 +160,13 @@
     <div class="entry">
       <div class="row">
         <span class="left">University of Massachusetts Boston</span>
-        <span class="right">Boston, Massachusetts</span>
+        <span class="right">Boston, MA</span>
       </div>
       <div class="row">
-        <span><span class="degree">B.S. in Computer Science</span> &nbsp;|&nbsp; <span class="degree">GPA: 3.78 / 4.00</span></span>
+        <span><span class="degree">B.S., Computer Science</span> | <span class="degree">GPA: 3.78 / 4.00</span></span>
         <span class="right">Expected May 2027</span>
       </div>
-      <div class="coursework"><b>Relevant Coursework:</b> Computer Security, Database Management, Intro to Software Engineering,
-      Applied Machine Learning, Industry Applied AI Lab</div>
+      <div class="coursework"><b>Relevant Coursework:</b> Applied Machine Learning, Industry Applied AI Lab, Computer Security, Database Management, Introduction to Software Engineering</div>
     </div>
   </section>
 
@@ -184,10 +182,11 @@
 
   <section>
     <div class="section-title">Projects</div>
+
     <div class="entry">
       <div class="row">
         <span><span class="proj-name">NBA Live Win Probability</span> <span class="proj-links">[<a href="https://live-nba-predictor.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Live-NBA-Predictor">GitHub</a>]</span> | <span class="proj-stack">Python, scikit-learn, XGBoost, FastAPI, Kafka</span></span>
-        <span class="right">July – Sept 2026</span>
+        <span class="right">Jul 2026 – Sep 2026</span>
       </div>
       <ul>
         <li>Built and deployed a live win-probability model that updates on every possession, trained on 6,149 games and validated on 4,500 games it had never seen.</li>
@@ -195,56 +194,55 @@
         <li>Unified training and live serving on a single feature pipeline, so production predictions match tested behavior exactly.</li>
       </ul>
     </div>
+
     <div class="entry">
       <div class="row">
-        <span><span class="proj-name">Receipt Automation (AutoTax)</span> <span class="proj-links">[<a href="https://auto-tax-mu.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/AutoTax">GitHub</a>]</span> | <span class="proj-stack">Python, LangGraph, FastAPI, Gmail API, Firestore</span></span>
-        <span class="right">July 2025 – Sept 2026</span>
+        <span><span class="proj-name">Governed RAG Assistant, UMass Boston Sustainable Solutions Lab</span> <span class="proj-links">[<a href="https://sustainable-labs-chat-bot.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Sustainable-Labs-ChatBot">GitHub</a>]</span> | <span class="proj-stack">Python, ChromaDB, Gemini</span></span>
+        <span class="right">Feb 2026 – May 2026</span>
       </div>
       <ul>
-        <li>Turns receipt emails into an accountant-ready ledger; rebuilt the pipeline as an eight-node LangGraph state machine that triages, extracts, reconciles and persists each receipt, and pauses for human review when the rules cannot prove a field.</li>
-        <li>Every stored record carries a provenance trace naming the source of each field, whether pattern match, sender domain, model or a person, and a validation step sends back any receipt whose arithmetic does not reconcile.</li>
-        <li>Cut model calls from one per email to a single batched call, <b>8&times; faster</b> at identical benchmark accuracy, and encrypted stored OAuth refresh tokens with Fernet.</li>
+        <li>Took a research lab's public AI assistant from 175 to 205 correct out of 208 on a graded benchmark scoring accuracy, source citations, and invented answers.</li>
+        <li>Hand-checked all three remaining misses against the source documents and confirmed every one was a grading error rather than a wrong answer, leaving zero verified defects.</li>
+        <li>Rebuilt search across 7,694 document sections by combining three retrieval methods, so questions phrased in unexpected ways still reach the right source.</li>
+        <li>Held quality steady release to release with a 416-question regression benchmark run on every change.</li>
       </ul>
     </div>
+
     <div class="entry">
       <div class="row">
-        <span><span class="proj-name">Multilingual Mindfulness Assistant</span> <span class="proj-links">[<a href="https://mindfulness-avatar.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Mindfulness-Avatar">GitHub</a>]</span> | <span class="proj-stack">React Native, Firebase, Python, Gemini</span></span>
-        <span class="right">Feb – June 2026</span>
-      </div>
-      <ul>
-        <li>Shipped a multilingual mindfulness app for older Korean adults and caregivers under the guidance of a UMass Boston professor, pairing a React Native client with a Python backend for streaming chat and text-to-speech.</li>
-        <li>Wrote the Firestore security rules and backend authorization: per-user ownership checks, field allowlists on every write, completed session records that cannot be edited or deleted, and server-issued tokens bound to the signed-in user so one account cannot reach another’s sessions.</li>
-        <li>Added per-user rate limits, size caps, sanitized error responses, and log redaction of session identifiers to limit abuse and data exposure.</li>
-      </ul>
-    </div>
-    <div class="entry">
-      <div class="row">
-        <span><span class="proj-name">AI Sustainable Labs: Governed RAG Assistant</span> <span class="proj-links">[<a href="https://sustainable-labs-chat-bot.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/Sustainable-Labs-ChatBot">GitHub</a>]</span> | <span class="proj-stack">Flask, ChromaDB, BM25, Gemini</span></span>
-        <span class="right">Feb – May 2026</span>
-      </div>
-      <ul>
-        <li>Scored <b>205/208</b> on an independently judged 208-question evaluation of the UMass Boston Sustainable Solutions Lab’s public assistant, covering correctness, citations and hallucination, with <b>zero verified defects</b>: every remaining miss was hand-checked against the source and traced to a judge disagreement, not a wrong answer.</li>
-        <li>Implemented data-governance controls: an allowlist on every server-to-browser field so internal evidence cannot leak, de-identified quality-review logs, admin-only aggregate reporting, and pre-retrieval input screening with rate limits.</li>
-      </ul>
-    </div>
-        <div class="entry">
-      <div class="row">
-        <span><span class="proj-name">ClaimSight: Insurance Claim Triage Platform</span> <span class="proj-links">[<a href="https://claim-sight.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/ClaimSight">GitHub</a>]</span> | <span class="proj-stack">FastAPI, Firebase Auth, SAM 2, Docker</span></span>
-        <span class="right">June – Sept 2026</span>
-      </div>
-      <ul>
-        <li>Built a claim intake and triage tool that separates claimant and adjuster roles and requires a second reviewer before a claim is adjusted, and documented its controls, from upload validation to rate limiting and trusted-host allowlists, in a checklist that also records the gaps they do not cover.</li>
-      </ul>
-    </div>
-    <div class="entry">
-      <div class="row">
-        <span><span class="proj-name">F1 Race Strategy Predictor</span> <span class="proj-links">[<a href="https://f1-predictor-two.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/F1-Predictor">GitHub</a>]</span> | <span class="proj-stack">XGBoost, scikit-learn, FastAPI, React</span></span>
+        <span><span class="proj-name">F1 Race Strategy Predictor</span> <span class="proj-links">[<a href="https://f1-predictor-two.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/F1-Predictor">GitHub</a>]</span> | <span class="proj-stack">Python, scikit-learn, XGBoost, GitHub Actions</span></span>
         <span class="right">Dec 2025 – Mar 2026</span>
       </div>
       <ul>
-        <li>Found that the original benchmark leaked future data and rebuilt evaluation as walk-forward validation across 8 seasons and ~157 races; reported effect sizes in standard errors and shipped the simpler model where the difference was not distinguishable from noise.</li>
+        <li>Built a predictor for the full race finishing order, evaluated across 8 seasons and roughly 157 races.</li>
+        <li>Designed a leak-free evaluation that scores each race using only earlier ones, giving the team accuracy numbers they can trust and a clear read on which model actually performs best.</li>
+        <li>Automated data refresh, feature selection and retraining every six hours, keeping predictions current with no manual work.</li>
       </ul>
     </div>
+
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">Receipt Automation (AutoTax)</span> <span class="proj-links">[<a href="https://auto-tax-mu.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/AutoTax">GitHub</a>]</span> | <span class="proj-stack">Python, LangGraph, FastAPI, Gemini</span></span>
+        <span class="right">Jul 2025 – Sep 2026</span>
+      </div>
+      <ul>
+        <li>Built a pipeline that pulls receipts from email and files them automatically, sending only uncertain ones to a person: 100% correct routing across 16 receipt formats at 1.3 seconds each.</li>
+        <li>Made processing 8x faster and cut AI usage roughly 70% by batching requests and trimming inputs, with no loss in accuracy.</li>
+        <li>Backed every release with automated suites for accuracy, speed and security, including adversarial tests that try to trick the AI with malicious input.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="row">
+        <span><span class="proj-name">ClaimSight: Insurance Damage Assessment</span> <span class="proj-links">[<a href="https://claim-sight.vercel.app/">Demo</a>] [<a href="https://github.com/DavidL72Code/ClaimSight">GitHub</a>]</span> | <span class="proj-stack">FastAPI, Gemini vision, Docker</span></span>
+        <span class="right">Jun 2026 – Sep 2026</span>
+      </div>
+      <ul>
+        <li>Built a tool that reads vehicle damage photos, prices the repair against live market listings, and produces an adjuster-ready summary.</li>
+        <li>Added automatic quality scoring that grades every assessment and upgrades the weak ones before a person reviews it.</li>
+      </ul>
+    </div>
+
   </section>
 
   <section>
@@ -257,24 +255,10 @@
       </div>
       <div class="subrow">
         <span class="left">IRS-Certified Tax Preparer</span>
-        <span class="right">Sept 2021 – May 2023</span>
+        <span class="right">Sep 2021 – May 2023</span>
       </div>
       <ul>
-        <li>Earned IRS VITA certification and prepared <b>30+ federal returns</b> for low-income filers, reviewing client source documents for completeness and accuracy and clearing every return through the program’s required quality review before filing.</li>
-      </ul>
-    </div>
-
-    <div class="entry">
-      <div class="row">
-        <span class="left">Gyu-Kaku Japanese BBQ</span>
-        <span class="right">Boston, MA</span>
-      </div>
-      <div class="subrow">
-        <span class="left">Server</span>
-        <span class="right">July 2024 – Present</span>
-      </div>
-      <ul>
-        <li>Serve <b>40+ guests per shift</b> averaging <b>$1,200 in sales</b> while working 20+ hours weekly alongside a full course load, communicating clearly under high-volume pressure.</li>
+        <li>Earned IRS VITA certification and prepared 30+ federal returns for low-income filers, checking source documents before the program's required quality review.</li>
       </ul>
     </div>
 
@@ -285,12 +269,24 @@
       </div>
       <div class="subrow">
         <span class="left">Youth Leader</span>
-        <span class="right">July – Sept 2022</span>
+        <span class="right">Jul 2022 – Sep 2022</span>
       </div>
       <ul>
-        <li>Designed and administered mental health surveys for <b>200+ Boston Public School students</b>, analyzed responses, and presented findings and recommendations to school officials.</li>
+        <li>Designed and ran mental health surveys for 200+ Boston Public School students, analyzed the responses, and presented recommendations to school officials.</li>
       </ul>
     </div>
+
+    <div class="entry">
+      <div class="row">
+        <span class="left">Gyu-Kaku Japanese BBQ</span>
+        <span class="right">Boston, MA</span>
+      </div>
+      <div class="subrow">
+        <span class="left">Server | 20+ hrs/week alongside a full course load</span>
+        <span class="right">Jul 2024 – Present</span>
+      </div>
+    </div>
+
   </section>
 
 </body>
